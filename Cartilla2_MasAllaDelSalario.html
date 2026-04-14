@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Más allá del salario</title>
+<style>
+  :root {
+    --navy: #0B1D3A;
+    --blue: #1651A8;
+    --sky: #3B8FE8;
+    --ice: #EAF2FD;
+    --white: #FFFFFF;
+    --offwhite: #F6F8FC;
+    --gray: #6B7A93;
+    --light: #D6E4F7;
+    --accent: #F0A500;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--offwhite);
+    color: var(--navy);
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  /* COVER */
+  .cover {
+    background: var(--blue);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .s1 { position: absolute; width: 500px; height: 500px; border-radius: 50%; right: -120px; top: -150px; background: rgba(59,143,232,0.25); }
+  .s2 { position: absolute; width: 280px; height: 280px; border-radius: 50%; right: 160px; top: 180px; background: rgba(240,165,0,0.15); }
+  .s3 { position: absolute; width: 200px; height: 200px; border-radius: 50%; left: -60px; bottom: 80px; background: rgba(255,255,255,0.06); }
+
+  .cover-inner {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cover-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 8px 18px;
+    border-radius: 100px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.85);
+    letter-spacing: 0.08em;
+    width: fit-content;
+    margin-bottom: 48px;
+  }
+
+  .cover-tag::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+
+  .cover-title {
+    font-size: clamp(40px, 6vw, 72px);
+    color: var(--white);
+    line-height: 1.05;
+    max-width: 700px;
+    margin-bottom: 28px;
+    font-weight: 700;
+  }
+
+  .cover-title em { color: var(--accent); font-style: normal; }
+
+  .cover-desc {
+    font-size: 17px;
+    color: rgba(255,255,255,0.65);
+    max-width: 480px;
+    line-height: 1.6;
+    margin-bottom: 60px;
+  }
+
+  .cover-stat {
+    display: flex;
+    gap: 40px;
+    padding-top: 36px;
+    border-top: 1px solid rgba(255,255,255,0.15);
+  }
+
+  .stat-num { font-size: 36px; font-weight: 700; color: var(--accent); line-height: 1; }
+  .stat-label { font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 4px; max-width: 100px; }
+
+  .cover-footer {
+    padding: 24px 80px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cover-footer span { font-size: 13px; color: rgba(255,255,255,0.45); }
+
+  /* TOC */
+  .toc { background: var(--navy); padding: 60px 80px; display: grid; grid-template-columns: 240px 1fr; gap: 60px; align-items: start; }
+  .toc-label { font-size: 28px; color: var(--white); font-weight: 700; line-height: 1.2; }
+  .toc-items { display: flex; flex-direction: column; }
+  .toc-row { display: flex; align-items: center; gap: 20px; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.08); font-size: 15px; color: rgba(255,255,255,0.6); }
+  .toc-row:last-child { border-bottom: none; }
+  .toc-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--sky); flex-shrink: 0; }
+
+  /* SECTION STRIP */
+  .sec-strip { background: var(--ice); padding: 28px 80px; display: flex; align-items: center; gap: 20px; }
+  .sec-num { font-size: 13px; color: var(--blue); background: var(--light); width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-weight: 700; }
+  .sec-strip h2 { font-size: 22px; color: var(--navy); font-weight: 400; }
+
+  /* CONTENT */
+  .content-block { padding: 48px 80px; background: var(--white); }
+  .content-block.alt { background: var(--offwhite); }
+
+  p { margin-bottom: 18px; color: #2E3A55; }
+  .cite { color: var(--blue); font-style: italic; }
+
+  /* CONCEPT CARDS */
+  .concept-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 32px 0; }
+  .concept-card { padding: 28px 24px; border-radius: 8px; border-top: 3px solid var(--sky); background: var(--offwhite); }
+  .concept-card h4 { font-size: 16px; color: var(--navy); margin-bottom: 10px; font-weight: 700; }
+  .concept-card p { font-size: 14px; color: var(--gray); margin: 0; }
+
+  /* PULLQUOTE */
+  .pullquote { margin: 36px 0; padding: 32px 36px; background: var(--ice); border-left: 4px solid var(--blue); border-radius: 0 8px 8px 0; }
+  .pullquote p { font-size: 19px; color: var(--navy); font-style: italic; line-height: 1.5; margin: 0; }
+
+  /* EXAMPLE */
+  .example { background: var(--navy); border-radius: 10px; padding: 32px 36px; margin: 32px 0; }
+  .example-tag { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
+  .example p { color: rgba(255,255,255,0.75); font-size: 15px; margin: 0; }
+
+  /* THEORY */
+  .theory-wrapper { display: flex; flex-direction: column; gap: 16px; margin: 32px 0; }
+  .theory-row { display: grid; grid-template-columns: 160px 1fr; border-radius: 10px; overflow: hidden; background: var(--white); border: 1px solid var(--light); }
+  .theory-tag { background: var(--blue); color: var(--white); display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px 16px; text-align: center; }
+  .theory-tag .name { font-size: 15px; font-weight: 700; line-height: 1.25; }
+  .theory-tag .year { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 6px; }
+  .theory-body { padding: 24px 28px; }
+  .theory-body h4 { font-size: 17px; color: var(--navy); margin-bottom: 8px; font-weight: 700; }
+  .theory-body p { font-size: 14.5px; color: var(--gray); margin: 0; }
+
+  /* STRATEGY GRID */
+  .strategy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 32px 0; }
+  .strat-card { background: var(--white); border: 1px solid var(--light); border-radius: 10px; padding: 28px 24px; position: relative; overflow: hidden; }
+  .strat-card::before { content: attr(data-num); position: absolute; top: -10px; right: 12px; font-size: 64px; color: var(--ice); line-height: 1; pointer-events: none; user-select: none; font-weight: 700; }
+  .strat-card h4 { font-size: 17px; color: var(--navy); margin-bottom: 10px; font-weight: 700; position: relative; }
+  .strat-card p { font-size: 14px; color: var(--gray); margin-bottom: 14px; }
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; }
+  .pill { font-size: 11px; padding: 4px 10px; border-radius: 100px; border: 1px solid var(--light); color: var(--blue); background: var(--ice); }
+  .strat-card.full-width { grid-column: 1 / -1; }
+
+  /* CONCLUSIONS */
+  .conclusions { background: var(--blue); padding: 72px 80px; color: var(--white); }
+  .conclusions h2 { font-size: 36px; margin-bottom: 32px; font-weight: 700; }
+  .conclusions p { color: rgba(255,255,255,0.75); max-width: 720px; }
+
+  /* REFS */
+  .refs { background: var(--navy); padding: 56px 80px; }
+  .refs h2 { font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 32px; }
+  .ref { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.75; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .ref:last-child { border-bottom: none; }
+  .ref em { color: rgba(255,255,255,0.8); }
+
+  @media (max-width: 700px) {
+    .cover-inner, .cover-footer, .toc, .sec-strip, .content-block, .conclusions, .refs { padding-left: 24px; padding-right: 24px; }
+    .toc { grid-template-columns: 1fr; gap: 32px; }
+    .concept-row, .strategy-grid { grid-template-columns: 1fr; }
+    .theory-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<section class="cover">
+  <div class="s1"></div><div class="s2"></div><div class="s3"></div>
+  <div class="cover-inner">
+    <div class="cover-tag">Habilidades Gerenciales &middot; Semana 5 &middot; UNIMINUTO</div>
+    <h1 class="cover-title">Más allá del salario: lo que de verdad <em>mueve</em> a las personas</h1>
+    <p class="cover-desc">Cartilla digital sobre motivación y bienestar organizacional. Una guía práctica para líderes que quieren entender a su equipo.</p>
+    <div class="cover-stat">
+      <div><div class="stat-num">3</div><div class="stat-label">Teorías de motivación</div></div>
+      <div><div class="stat-num">5</div><div class="stat-label">Estrategias aplicables</div></div>
+      <div><div class="stat-num">3</div><div class="stat-label">Fuentes APA 7</div></div>
+    </div>
+  </div>
+  <div class="cover-footer">
+    <span>Christian Camilo Torres Naranjo &middot; Esp. Gerencia Comercial &middot; Abril 2026</span>
+    <span>Versión 2</span>
+  </div>
+</section>
+
+<div class="toc">
+  <div class="toc-label">Tabla de Contenido</div>
+  <div class="toc-items">
+    <div class="toc-row"><span class="toc-dot"></span> Introducción</div>
+    <div class="toc-row"><span class="toc-dot"></span> Motivación, bienestar y experiencia: tres conceptos clave</div>
+    <div class="toc-row"><span class="toc-dot"></span> El liderazgo como detonador de la motivación</div>
+    <div class="toc-row"><span class="toc-dot"></span> Por qué la gente se compromete: tres teorías</div>
+    <div class="toc-row"><span class="toc-dot"></span> Lo que sí funciona: cinco estrategias reales</div>
+    <div class="toc-row"><span class="toc-dot"></span> Conclusiones y Referencias</div>
+  </div>
+</div>
+
+<div class="sec-strip"><span class="sec-num">01</span><h2>Introducción</h2></div>
+<div class="content-block">
+  <p>Hay una creencia muy extendida en el mundo empresarial: si subes el salario, las personas trabajan mejor. Y aunque el dinero importa y es necesario, los estudios han demostrado, una y otra vez, que no es el factor principal que determina si alguien se compromete de verdad con su trabajo.</p>
+  <p>Esta cartilla busca responder una pregunta que todo líder debería hacerse: ¿qué es lo que de verdad mueve a las personas que trabajan conmigo? Va dirigida a líderes y coordinadores que quieren encontrar formas prácticas, sin grandes presupuestos, de mejorar el ambiente laboral y los resultados. Un equipo motivado no solo produce más: comete menos errores, se enferma menos y permanece más tiempo en la organización.</p>
+</div>
+
+<div class="sec-strip"><span class="sec-num">02</span><h2>Motivación, bienestar y experiencia: tres conceptos clave</h2></div>
+<div class="content-block alt">
+  <div class="concept-row">
+    <div class="concept-card">
+      <h4>Motivación organizacional</h4>
+      <p>Las fuerzas internas y externas que llevan a las personas a actuar con compromiso. Cuando falta, el trabajo se convierte en obligación <span class="cite">(Chiavenato, 2022)</span>.</p>
+    </div>
+    <div class="concept-card">
+      <h4>Bienestar organizacional</h4>
+      <p>Estado en que las personas se sienten respetadas y con recursos para crecer. Se relaciona directamente con la productividad <span class="cite">(Whetten & Cameron, 2022)</span>.</p>
+    </div>
+    <div class="concept-card">
+      <h4>Experiencia del empleado</h4>
+      <p>Todo lo que una persona percibe desde que entra hasta que se va. Diseñarla de forma intencional retiene talento <span class="cite">(Gheidar & Zanjani, 2021)</span>.</p>
+    </div>
+  </div>
+</div>
+
+<div class="sec-strip"><span class="sec-num">03</span><h2>El liderazgo como detonador de la motivación</h2></div>
+<div class="content-block">
+  <p>El líder es el factor más determinante en la motivación del equipo. Sus decisiones cotidianas crean el ambiente en el que las personas trabajan todos los días. Un líder que reconoce logros y demuestra genuino interés genera un entorno donde las personas quieren dar lo mejor.</p>
+  <div class="pullquote"><p>Lo que el líder permite, celebra, ignora o sanciona, define la cultura real del equipo. Mucho más que cualquier valor escrito en la pared.</p></div>
+  <div class="example">
+    <div class="example-tag">Ejemplo aplicado</div>
+    <p>Una coordinadora de servicio al cliente en una empresa de consumo masivo empezó a enviar cada viernes un mensaje al grupo reconociendo a una persona por su desempeño, con un detalle específico de lo que había hecho bien. En tres meses, la satisfacción de clientes subió y la rotación voluntaria del equipo se redujo. El costo: cero.</p>
+  </div>
+</div>
+
+<div class="sec-strip"><span class="sec-num">04</span><h2>Por qué la gente se compromete: tres teorías</h2></div>
+<div class="content-block alt">
+  <div class="theory-wrapper">
+    <div class="theory-row">
+      <div class="theory-tag"><span class="name">Abraham Maslow</span><span class="year">Jerarquía de necesidades</span></div>
+      <div class="theory-body">
+        <h4>Primero lo básico, luego lo superior</h4>
+        <p>Las personas no pueden comprometerse con objetivos superiores mientras sus necesidades básicas no estén cubiertas. Colaboradores con inseguridad laboral o condiciones inseguras no pueden generar compromiso genuino <span class="cite">(Chiavenato, 2022)</span>.</p>
+      </div>
+    </div>
+    <div class="theory-row">
+      <div class="theory-tag"><span class="name">Frederick Herzberg</span><span class="year">Dos factores</span></div>
+      <div class="theory-body">
+        <h4>Lo que evita el malestar no genera compromiso</h4>
+        <p>Los factores higiénicos (salario, condiciones) eliminan la insatisfacción. Los motivadores (reconocimiento, crecimiento, logro) son los que generan compromiso real <span class="cite">(Whetten & Cameron, 2022)</span>.</p>
+      </div>
+    </div>
+    <div class="theory-row">
+      <div class="theory-tag"><span class="name">Ryan y Deci</span><span class="year">Autodeterminación</span></div>
+      <div class="theory-body">
+        <h4>La motivación poderosa viene de adentro</h4>
+        <p>Las personas se motivan cuando sienten <em>competencia</em>, <em>autonomía</em> y <em>relación</em> con su equipo. Sin alguna de estas tres, la motivación se vuelve frágil <span class="cite">(Chiavenato, 2022)</span>.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sec-strip"><span class="sec-num">05</span><h2>Lo que sí funciona: cinco estrategias reales</h2></div>
+<div class="content-block">
+  <div class="strategy-grid">
+    <div class="strat-card" data-num="1">
+      <h4>Retroalimentación concreta y frecuente</h4>
+      <p>No solo para corregir: también para decir qué está saliendo bien. Específica, oportuna y enfocada en comportamientos <span class="cite">(Whetten & Cameron, 2022)</span>.</p>
+      <div class="pills"><span class="pill">Presencial: 1:1 rápido</span><span class="pill">Remoto: mensaje directo</span></div>
+    </div>
+    <div class="strat-card" data-num="2">
+      <h4>Involucrar al equipo en las decisiones</h4>
+      <p>No someter todo a votación, sino preguntar, escuchar y explicar el por qué. Las personas que participan se sienten parte del resultado.</p>
+      <div class="pills"><span class="pill">10 min en reuniones</span><span class="pill">Encuestas rápidas</span></div>
+    </div>
+    <div class="strat-card" data-num="3">
+      <h4>Rituales de equipo</h4>
+      <p>Acciones pequeñas y repetidas que generan sentido de pertenencia: la meta del día, el reconocimiento semanal, la celebración cuando se cumple un objetivo.</p>
+      <div class="pills"><span class="pill">Lunes de arranque</span><span class="pill">Viernes de resultados</span></div>
+    </div>
+    <div class="strat-card" data-num="4">
+      <h4>Oportunidades reales de aprendizaje</h4>
+      <p>Invertir en formación envía un mensaje claro. <span class="cite">Gheidar y Zanjani (2021)</span> señalan que el aprendizaje continuo es clave para que el colaborador decida quedarse.</p>
+      <div class="pills"><span class="pill">Talleres internos</span><span class="pill">Mentorías</span></div>
+    </div>
+    <div class="strat-card full-width" data-num="5">
+      <h4>Cuidar el equilibrio trabajo — vida personal</h4>
+      <p>Un equipo agotado produce menos, comete más errores y se va más rápido. Respetar horarios y ser sensible ante situaciones personales no es debilidad: es inteligencia organizacional.</p>
+      <div class="pills"><span class="pill">Límites de horario claros</span><span class="pill">Seguimiento de carga</span><span class="pill">Presencial / Remoto / Híbrido</span></div>
+    </div>
+  </div>
+</div>
+
+<section class="conclusions">
+  <h2>Conclusiones</h2>
+  <p>La motivación no se compra ni se impone. Se construye día a día con decisiones pequeñas que acumulan confianza, respeto y sentido de propósito.</p><br>
+  <p>Las teorías de Maslow, Herzberg y Ryan y Deci muestran que las personas necesitan sentirse seguras, reconocidas, capaces y parte de algo. Cuando un líder entiende esto y actúa en consecuencia, los resultados llegan solos.</p><br>
+  <p>Las organizaciones que invierten en el bienestar y la motivación de sus equipos logran algo más valioso que buenos indicadores: personas que se levantan cada mañana con ganas de ir a trabajar.</p>
+</section>
+
+<section class="refs">
+  <h2>Referencias &mdash; APA 7.ª edición</h2>
+  <div class="ref">Chiavenato, I. (2022). <em>Comportamiento organizacional: La dinámica del éxito en las organizaciones</em> (3.ª ed., pp. 213-244; 329-358). McGraw-Hill Interamericana.</div>
+  <div class="ref">Gheidar, Y., &amp; Zanjani, M. S. (2021). Designing a conceptual framework for digital employee experience. <em>Iranian Journal of Management Studies, 14</em>(4), 669-680. https://doi.org/10.22059/ijms.2021.316097.674192</div>
+  <div class="ref">Whetten, D. A., &amp; Cameron, K. S. (2022). <em>Desarrollo de habilidades directivas</em> (9.ª ed., pp. 261-306). Pearson Educación.</div>
+</section>
+
+</body>
+</html>
