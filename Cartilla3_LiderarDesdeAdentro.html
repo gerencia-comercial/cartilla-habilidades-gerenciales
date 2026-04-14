@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Liderar desde adentro</title>
+<style>
+  :root {
+    --forest: #1C3028;
+    --deep: #0F1E16;
+    --green: #2D5A3E;
+    --sage: #4E8060;
+    --mint: #A8C8B4;
+    --cream: #F4EFE6;
+    --paper: #FAF7F2;
+    --gold: #C8A84B;
+    --light-green: #E8F0EB;
+    --muted: #6E8A78;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--forest);
+    font-family: 'Georgia', serif;
+    font-size: 16px;
+    line-height: 1.75;
+  }
+
+  /* COVER */
+  .cover {
+    background: var(--deep);
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cover-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 70% at 80% 20%, rgba(45,90,62,0.4) 0%, transparent 60%),
+                radial-gradient(ellipse 40% 50% at 10% 80%, rgba(200,168,75,0.08) 0%, transparent 50%);
+  }
+
+  .cover-lines {
+    position: absolute; inset: 0;
+    background-image: repeating-linear-gradient(90deg, transparent, transparent 119px, rgba(168,200,180,0.04) 119px, rgba(168,200,180,0.04) 120px);
+  }
+
+  .cover-content {
+    position: relative; z-index: 1;
+    display: flex; flex-direction: column;
+    justify-content: flex-end;
+    padding: 80px;
+  }
+
+  .cover-eyebrow {
+    display: flex; align-items: center; gap: 16px; margin-bottom: 52px;
+  }
+
+  .cover-eyebrow-line { width: 40px; height: 1px; background: var(--gold); }
+  .cover-eyebrow span { font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); font-weight: 600; font-family: Arial, sans-serif; }
+
+  .cover-title {
+    font-size: clamp(44px, 6vw, 84px);
+    color: var(--cream);
+    font-weight: 700;
+    line-height: 1.0;
+    max-width: 720px;
+    margin-bottom: 36px;
+  }
+
+  .cover-title em { color: var(--mint); font-style: italic; }
+
+  .cover-byline { font-size: 14px; color: rgba(244,239,230,0.4); max-width: 500px; line-height: 1.6; font-family: Arial, sans-serif; }
+
+  .cover-footer {
+    position: relative; z-index: 1;
+    padding: 24px 80px;
+    border-top: 1px solid rgba(168,200,180,0.1);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+
+  .cover-footer span { font-size: 12px; color: rgba(244,239,230,0.3); letter-spacing: 0.06em; font-family: Arial, sans-serif; }
+
+  .v-badge { background: var(--gold); color: var(--deep); font-size: 11px; font-weight: 700; letter-spacing: 0.1em; padding: 4px 14px; border-radius: 100px; font-family: Arial, sans-serif; }
+
+  /* TOC */
+  .toc { background: var(--forest); padding: 64px 80px; }
+  .toc-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 48px; }
+  .toc-title { font-size: 44px; color: var(--cream); font-weight: 400; font-style: italic; line-height: 1; }
+  .toc-subtitle { font-size: 12px; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; max-width: 200px; text-align: right; line-height: 1.5; font-family: Arial, sans-serif; }
+  .toc-list { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+  .toc-item { display: flex; align-items: center; gap: 16px; padding: 18px 24px; background: rgba(255,255,255,0.03); border: 1px solid rgba(168,200,180,0.1); font-size: 14.5px; color: rgba(244,239,230,0.55); font-family: Arial, sans-serif; }
+  .toc-n { font-size: 20px; color: var(--gold); font-style: italic; min-width: 28px; }
+
+  /* SECTION HEADER */
+  .sec-header { background: var(--light-green); padding: 48px 80px 0; }
+  .sec-eyebrow { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--sage); font-weight: 600; margin-bottom: 10px; font-family: Arial, sans-serif; }
+  .sec-header h2 { font-size: 36px; font-weight: 700; color: var(--forest); line-height: 1.15; padding-bottom: 32px; border-bottom: 1px solid var(--mint); max-width: 620px; }
+
+  /* CONTENT */
+  .content { background: var(--paper); padding: 48px 80px; }
+  .content.alt { background: var(--light-green); }
+
+  p { margin-bottom: 18px; color: #2C4035; }
+  .cite { color: var(--sage); font-style: italic; }
+
+  h3 { font-size: 21px; font-weight: 700; color: var(--forest); margin: 36px 0 12px; font-style: italic; }
+
+  /* DEF CARDS */
+  .def-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 32px 0; }
+  .def-card { background: var(--paper); border: 1px solid var(--mint); border-top: 3px solid var(--sage); padding: 28px 22px; }
+  .def-icon { width: 36px; height: 36px; background: var(--forest); border-radius: 50%; margin-bottom: 16px; display: flex; align-items: center; justify-content: center; color: var(--mint); font-size: 18px; font-style: italic; }
+  .def-card h4 { font-size: 17px; font-weight: 700; color: var(--forest); margin-bottom: 10px; }
+  .def-card p { font-size: 14px; color: var(--muted); margin: 0; line-height: 1.65; }
+
+  /* EXAMPLE */
+  .example-block { background: var(--forest); padding: 36px 40px; margin: 36px 0; position: relative; }
+  .example-block::before { content: '\201C'; position: absolute; top: -20px; left: 36px; font-size: 100px; color: var(--gold); line-height: 1; pointer-events: none; }
+  .example-label { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; font-weight: 600; font-family: Arial, sans-serif; }
+  .example-block p { color: rgba(244,239,230,0.75); font-size: 15px; line-height: 1.75; margin: 0; }
+
+  /* THEORY TIMELINE */
+  .theory-timeline { position: relative; padding-left: 40px; margin: 36px 0; }
+  .theory-timeline::before { content: ''; position: absolute; left: 6px; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom, var(--sage), transparent); }
+  .theory-item { position: relative; margin-bottom: 40px; }
+  .theory-item::before { content: ''; position: absolute; left: -37px; top: 8px; width: 14px; height: 14px; border-radius: 50%; background: var(--sage); border: 3px solid var(--paper); }
+  .theory-item h4 { font-size: 21px; font-weight: 700; color: var(--forest); margin-bottom: 4px; font-style: italic; }
+  .theory-item .author { font-size: 12px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px; font-family: Arial, sans-serif; }
+  .theory-item p { font-size: 15px; color: #3A5545; margin-bottom: 10px; }
+  .theory-item .ex { background: var(--light-green); padding: 14px 18px; border-left: 3px solid var(--sage); font-size: 14px; color: var(--muted); line-height: 1.65; margin-top: 10px; }
+
+  /* STRATEGIES */
+  .strategies { display: flex; flex-direction: column; gap: 12px; margin: 32px 0; }
+  .strat { display: grid; grid-template-columns: 64px 1fr; background: var(--paper); border: 1px solid var(--mint); overflow: hidden; }
+  .strat-num { background: var(--green); display: flex; align-items: center; justify-content: center; font-size: 32px; color: var(--cream); font-style: italic; font-weight: 700; }
+  .strat-body { padding: 24px 28px; }
+  .strat-body h4 { font-size: 19px; font-weight: 700; color: var(--forest); margin-bottom: 8px; }
+  .strat-body p { font-size: 14.5px; color: var(--muted); margin-bottom: 12px; }
+  .modality-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .mod { font-size: 11px; padding: 3px 12px; border-radius: 3px; border: 1px solid var(--mint); color: var(--sage); font-weight: 500; font-family: Arial, sans-serif; }
+
+  /* CONCLUSIONS */
+  .conclusions { background: var(--forest); padding: 72px 80px; }
+  .conclusions .header { display: flex; align-items: center; gap: 20px; margin-bottom: 40px; }
+  .conclusions-line { width: 50px; height: 1px; background: var(--gold); }
+  .conclusions h2 { font-size: 38px; color: var(--cream); font-weight: 400; font-style: italic; }
+  .conclusions p { color: rgba(244,239,230,0.7); max-width: 700px; margin-bottom: 20px; font-size: 16px; }
+
+  /* REFERENCES */
+  .references { background: var(--deep); padding: 60px 80px; }
+  .references h2 { font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); font-weight: 600; margin-bottom: 36px; font-family: Arial, sans-serif; }
+  .ref { font-size: 14px; color: rgba(244,239,230,0.5); padding: 16px 0; border-bottom: 1px solid rgba(168,200,180,0.1); line-height: 1.75; }
+  .ref:last-child { border: none; }
+  .ref em { color: rgba(244,239,230,0.8); }
+
+  @media (max-width: 700px) {
+    .cover-content, .cover-footer, .toc, .sec-header, .content, .conclusions, .references { padding-left: 24px; padding-right: 24px; }
+    .toc-list, .def-grid { grid-template-columns: 1fr; }
+    .toc-top { flex-direction: column; gap: 16px; }
+    .strat { grid-template-columns: 50px 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<section class="cover">
+  <div class="cover-bg"></div>
+  <div class="cover-lines"></div>
+  <div class="cover-content">
+    <div class="cover-eyebrow">
+      <div class="cover-eyebrow-line"></div>
+      <span>Habilidades Gerenciales &middot; Semana 5 &middot; UNIMINUTO</span>
+    </div>
+    <h1 class="cover-title">Liderar desde <em>adentro</em>: motivación que nace de la cultura</h1>
+    <p class="cover-byline">Cartilla digital sobre motivación y bienestar organizacional &middot; Christian Camilo Torres Naranjo &middot; Especialización en Gerencia Comercial &middot; Abril 2026</p>
+  </div>
+  <div class="cover-footer">
+    <span>UNIMINUTO &middot; Pasto, Nariño, Colombia</span>
+    <span class="v-badge">VERSIÓN 3</span>
+  </div>
+</section>
+
+<section class="toc">
+  <div class="toc-top">
+    <div class="toc-title">Tabla de<br>Contenido</div>
+    <div class="toc-subtitle">Cartilla Digital &middot; Semana 5</div>
+  </div>
+  <div class="toc-list">
+    <div class="toc-item"><span class="toc-n">I</span> Introducción</div>
+    <div class="toc-item"><span class="toc-n">II</span> Los conceptos que sustentan esta cartilla</div>
+    <div class="toc-item"><span class="toc-n">III</span> Cuando la cultura y el liderazgo son el motor</div>
+    <div class="toc-item"><span class="toc-n">IV</span> Tres teorías que cambian la perspectiva</div>
+    <div class="toc-item"><span class="toc-n">V</span> Cinco estrategias que generan motivación duradera</div>
+    <div class="toc-item"><span class="toc-n">VI</span> Conclusiones y Referencias</div>
+  </div>
+</section>
+
+<div class="sec-header"><div class="sec-eyebrow">Sección I</div><h2>Introducción</h2></div>
+<div class="content">
+  <p>Hay organizaciones donde las personas llegan puntuales, trabajan con cuidado, proponen ideas y defienden a su empresa como si fuera propia. Y hay otras donde la gente solo espera que llegue el viernes. La diferencia, casi siempre, no está en el sector ni en el tamaño de la empresa. Está en la cultura que se ha construido dentro de ella y en el tipo de liderazgo que la conduce.</p>
+  <p>Esta cartilla parte de esa convicción: la motivación duradera no se logra con incentivos aislados ni con discursos inspiradores. Se construye cuando la cultura del equipo y el estilo de liderazgo crean un ambiente donde las personas se sienten valoradas, capaces y conectadas con un propósito común.</p>
+  <p>Va dirigida a cualquier persona que tenga gente a su cargo y quiera liderar de manera más consciente, más humana y más efectiva.</p>
+</div>
+
+<div class="sec-header"><div class="sec-eyebrow">Sección II</div><h2>Los conceptos que sustentan esta cartilla</h2></div>
+<div class="content alt">
+  <div class="def-grid">
+    <div class="def-card">
+      <div class="def-icon">M</div>
+      <h4>Motivación organizacional</h4>
+      <p>El conjunto de fuerzas internas y externas que llevan a las personas a actuar con compromiso. Es la base de cualquier estrategia de liderazgo efectivo <span class="cite">(Chiavenato, 2022)</span>.</p>
+    </div>
+    <div class="def-card">
+      <div class="def-icon">B</div>
+      <h4>Bienestar organizacional</h4>
+      <p>Estado activo en que las personas desarrollan su potencial en un entorno digno. Cuando una organización cuida a su gente, su gente cuida los resultados <span class="cite">(Whetten & Cameron, 2022)</span>.</p>
+    </div>
+    <div class="def-card">
+      <div class="def-icon">E</div>
+      <h4>Experiencia del empleado</h4>
+      <p>Todo lo que una persona vive, siente y percibe durante su relación con la organización. Diseñarla de forma intencional es una ventaja competitiva real <span class="cite">(Gheidar & Zanjani, 2021)</span>.</p>
+    </div>
+  </div>
+</div>
+
+<div class="sec-header"><div class="sec-eyebrow">Sección III</div><h2>Cuando la cultura y el liderazgo son el motor</h2></div>
+<div class="content">
+  <p>La cultura de un equipo es como el agua en la que todos nadan: está ahí todo el tiempo, lo afecta todo, pero es tan cotidiana que muchas veces no se nota. Es la forma en que se toman las decisiones, cómo se resuelven los conflictos, qué comportamientos se celebran y cuáles se toleran. Y quien más influye en esa cultura es el líder.</p>
+  <p>Según <span class="cite">Chiavenato (2022)</span>, el estilo de liderazgo define el clima emocional del equipo. Un líder claro, coherente y cercano genera seguridad. Un líder impredecible genera ansiedad. Y la ansiedad es el enemigo número uno de la motivación.</p>
+  <div class="example-block">
+    <div class="example-label">Ejemplo aplicado</div>
+    <p>En una empresa distribuidora, el gerente comercial decidió participar personalmente en la reunión de cada área que cumplía su meta mensual, para agradecer en persona. No había bonificación ni trofeo. Solo presencia y reconocimiento genuino. En seis meses, las áreas que visitó regularmente mejoraron sus indicadores. Las que no visitó se mantuvieron igual. La presencia del líder marcó la diferencia.</p>
+  </div>
+</div>
+
+<div class="sec-header"><div class="sec-eyebrow">Sección IV</div><h2>Tres teorías que cambian la perspectiva sobre la motivación</h2></div>
+<div class="content alt">
+  <div class="theory-timeline">
+    <div class="theory-item">
+      <h4>Maslow — Primero lo primero</h4>
+      <div class="author">Jerarquía de necesidades</div>
+      <p>Su aporte central: una persona no puede comprometerse con necesidades superiores mientras las básicas no estén cubiertas. Un colaborador con inseguridad laboral o condiciones inseguras no puede comprometerse con los objetivos estratégicos de la empresa <span class="cite">(Chiavenato, 2022)</span>.</p>
+      <div class="ex"><strong>Ejemplo:</strong> Una empresa que exige a sus conductores "ponerse la camiseta" mientras les paga tarde y los hace trabajar sin elementos de protección adecuados, está pidiendo compromiso sin dar las condiciones mínimas para que ese compromiso sea posible.</div>
+    </div>
+    <div class="theory-item">
+      <h4>Herzberg — Lo que evita el malestar no genera compromiso</h4>
+      <div class="author">Modelo de dos factores</div>
+      <p>Los factores higiénicos (salario, condiciones) eliminan la insatisfacción pero no generan motivación real. Los factores motivadores (reconocimiento, crecimiento, logro) son los que de verdad generan compromiso <span class="cite">(Whetten & Cameron, 2022)</span>.</p>
+      <div class="ex"><strong>Ejemplo:</strong> Una empresa con salario competitivo y espacio cómodo, pero donde los colaboradores no reciben retroalimentación ni tienen posibilidades de crecer, verá insatisfacción tarde o temprano.</div>
+    </div>
+    <div class="theory-item">
+      <h4>Ryan y Deci — Motivarse desde adentro</h4>
+      <div class="author">Teoría de autodeterminación</div>
+      <p>Las personas se motivan intrínsecamente cuando sienten <em>competencia</em>, <em>autonomía</em> y <em>relación</em> con su equipo. Esta motivación interna es más poderosa y más duradera que cualquier recompensa externa <span class="cite">(Chiavenato, 2022)</span>.</p>
+      <div class="ex"><strong>Ejemplo:</strong> Un asesor al que se le da libertad para adaptar su discurso según cada cliente, cuyas ideas son escuchadas y que recibe formación, va a rendir más que uno al que se le dicta exactamente qué hacer y cuándo.</div>
+    </div>
+  </div>
+</div>
+
+<div class="sec-header"><div class="sec-eyebrow">Sección V</div><h2>Cinco estrategias que generan motivación duradera</h2></div>
+<div class="content">
+  <div class="strategies">
+    <div class="strat">
+      <div class="strat-num">1</div>
+      <div class="strat-body">
+        <h4>Construir una cultura del reconocimiento</h4>
+        <p>Genuino, oportuno y específico. Según <span class="cite">Whetten y Cameron (2022)</span>, el reconocimiento específico refuerza los comportamientos que se quieren ver repetidos y construye una cultura donde el buen desempeño es visible y valorado.</p>
+        <div class="modality-row"><span class="mod">Presencial: espacio fijo en reunión</span><span class="mod">Remoto: hilo de reconocimientos</span><span class="mod">Híbrido: incluir a todos</span></div>
+      </div>
+    </div>
+    <div class="strat">
+      <div class="strat-num">2</div>
+      <div class="strat-body">
+        <h4>Dar autonomía con responsabilidad</h4>
+        <p>Delegar no es soltar el control. Es confiar en las personas para decidir dentro de límites claros. Cuando el líder delega bien, las personas se sienten capaces y responsables.</p>
+        <div class="modality-row"><span class="mod">Áreas de responsabilidad propias</span><span class="mod">Objetivos semanales</span><span class="mod">Revisar resultados, no actividades</span></div>
+      </div>
+    </div>
+    <div class="strat">
+      <div class="strat-num">3</div>
+      <div class="strat-body">
+        <h4>Crear espacios para aprender y crecer</h4>
+        <p>Según <span class="cite">Gheidar y Zanjani (2021)</span>, el acceso al aprendizaje continuo es uno de los principales factores que determinan si alguien decide quedarse en una organización.</p>
+        <div class="modality-row"><span class="mod">Capacitaciones internas</span><span class="mod">Mentorías cruzadas</span><span class="mod">Plataformas digitales</span></div>
+      </div>
+    </div>
+    <div class="strat">
+      <div class="strat-num">4</div>
+      <div class="strat-body">
+        <h4>Comunicar con claridad y coherencia</h4>
+        <p>Un líder que comunica las metas cada semana y explica el por qué de las decisiones, construye confianza. Y la confianza es la base de cualquier equipo motivado.</p>
+        <div class="modality-row"><span class="mod">Metas semanales compartidas</span><span class="mod">Actualización ante cambios</span></div>
+      </div>
+    </div>
+    <div class="strat">
+      <div class="strat-num">5</div>
+      <div class="strat-body">
+        <h4>Cuidar activamente el bienestar del equipo</h4>
+        <p>Según <span class="cite">Whetten y Cameron (2022)</span>, los líderes que atienden a tiempo las señales de desgaste evitan crisis mayores y mantienen rendimiento sostenido.</p>
+        <div class="modality-row"><span class="mod">Respetar horarios</span><span class="mod">Distribuir carga de trabajo</span><span class="mod">Seguimiento individual</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="conclusions">
+  <div class="header"><div class="conclusions-line"></div><h2>Conclusiones</h2></div>
+  <p>La motivación duradera no se construye con bonificaciones puntuales ni con discursos de fin de año. Se construye con cultura, con liderazgo consistente y con decisiones cotidianas que demuestran que las personas importan.</p>
+  <p>Las teorías de Maslow, Herzberg y Ryan y Deci convergen en un punto: las personas se comprometen cuando sus necesidades básicas están cubiertas, cuando su trabajo tiene sentido y reconocimiento, y cuando sienten capacidad, autonomía y conexión con su equipo.</p>
+  <p>Un líder que entiende estas dinámicas no necesita un presupuesto especial. Necesita voluntad, consistencia y la convicción de que liderar es, antes que nada, un acto de servicio hacia las personas.</p>
+</section>
+
+<section class="references">
+  <h2>Referencias Bibliográficas &mdash; APA 7.ª edición</h2>
+  <div class="ref">Chiavenato, I. (2022). <em>Comportamiento organizacional: La dinámica del éxito en las organizaciones</em> (3.ª ed., pp. 213-244; 329-358). McGraw-Hill Interamericana.</div>
+  <div class="ref">Gheidar, Y., &amp; Zanjani, M. S. (2021). Designing a conceptual framework for digital employee experience. <em>Iranian Journal of Management Studies, 14</em>(4), 669-680. https://doi.org/10.22059/ijms.2021.316097.674192</div>
+  <div class="ref">Whetten, D. A., &amp; Cameron, K. S. (2022). <em>Desarrollo de habilidades directivas</em> (9.ª ed., pp. 261-306). Pearson Educación.</div>
+</section>
+
+</body>
+</html>
