@@ -239,19 +239,58 @@
     return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
 
-  /* sonido suave de confirmación */
-  function sonidoOk() {
+  /* ---------------- sonidos y vibración ---------------- */
+
+  var audioCtx = null;
+
+  function obtenerAudio() {
+    if (!audioCtx) {
+      try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { /* sin audio */ }
+    }
+    if (audioCtx && audioCtx.state === 'suspended') {
+      try { audioCtx.resume(); } catch (e) { /* nada */ }
+    }
+    return audioCtx;
+  }
+
+  function tono(freq, inicio, dur, vol, forma) {
+    var ctx = obtenerAudio();
+    if (!ctx) return;
+    var osc = ctx.createOscillator();
+    var gain = ctx.createGain();
+    osc.type = forma || 'sine';
+    osc.frequency.value = freq;
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    var t = ctx.currentTime + inicio;
+    gain.gain.setValueAtTime(vol, t);
+    gain.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    osc.start(t);
+    osc.stop(t + dur + 0.05);
+  }
+
+  function sonido(cual) {
     try {
-      var ctx = sonidoOk.ctx || (sonidoOk.ctx = new (window.AudioContext || window.webkitAudioContext)());
-      var osc = ctx.createOscillator();
-      var gain = ctx.createGain();
-      osc.connect(gain); gain.connect(ctx.destination);
-      osc.frequency.value = 880;
-      gain.gain.setValueAtTime(0.12, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.35);
-      osc.start();
-      osc.stop(ctx.currentTime + 0.4);
+      if (cual === 'ok') {            // campanita ascendente: quedó bien
+        tono(660, 0, 0.18, 0.16);
+        tono(880, 0.13, 0.3, 0.16);
+      } else if (cual === 'error') {  // zumbido grave: algo salió mal
+        tono(220, 0, 0.22, 0.18, 'square');
+        tono(160, 0.18, 0.28, 0.16, 'square');
+      } else {                        // clic corto de tecla
+        tono(1150, 0, 0.04, 0.06);
+      }
     } catch (e) { /* sin sonido, no pasa nada */ }
+  }
+
+  function vibrar(patron) {
+    try { if (navigator.vibrate) navigator.vibrate(patron); } catch (e) { /* sin vibración */ }
+  }
+
+  function avisoError(mensaje) {
+    sonido('error');
+    vibrar([70, 50, 70]);
+    alert(mensaje);
   }
 
   /* íconos fijos del HTML (encabezados, navegación, teclas) */
@@ -274,6 +313,8 @@
   }
 
   document.addEventListener('click', function (ev) {
+    // toda opción que se toque vibra, para que se sienta que sí respondió
+    if (ev.target.closest('button')) vibrar(15);
     var b = ev.target.closest('[data-ir]');
     if (b) irA(b.getAttribute('data-ir'));
   });
@@ -420,6 +461,7 @@
 
   document.querySelectorAll('#pantalla-teclado .tecla').forEach(function (tecla) {
     tecla.addEventListener('click', function () {
+      sonido('tecla');
       var t = tecla.getAttribute('data-tecla');
       if (t === 'borrar') {
         teclado.digitos = teclado.digitos.slice(0, -1);
@@ -477,7 +519,8 @@
     document.getElementById('confirmacion-monto').textContent = fmt(valor);
     document.getElementById('confirmacion-letras').textContent = numeroALetras(valor);
     overlay.classList.remove('oculto');
-    sonidoOk();
+    sonido('ok');
+    vibrar([40, 60, 40]);
     clearTimeout(confirmacionTimer);
     confirmacionTimer = setTimeout(cerrarConfirmacion, 2800);
   }
@@ -561,6 +604,7 @@
 
   document.querySelectorAll('#pantalla-clave .tecla').forEach(function (tecla) {
     tecla.addEventListener('click', function () {
+      sonido('tecla');
       var t = tecla.getAttribute('data-clave');
       if (t === 'cancelar') { irA('ventas'); return; }
       if (t === 'borrar') {
@@ -577,6 +621,8 @@
             irA('admin');
             pintarTabAdmin('reportes');
           } else {
+            sonido('error');
+            vibrar([70, 50, 70]);
             document.getElementById('clave-error').textContent = 'Clave incorrecta';
             claveEscrita = '';
             pintarPuntos();
@@ -796,8 +842,8 @@
       if (accion !== 'guardar-familia') return;
       var nombre = document.getElementById('campo-nombre').value.trim();
       var margen = parseInt(document.getElementById('campo-margen').value, 10);
-      if (!nombre) { alert('Escriba el nombre de la familia.'); return 'mantener'; }
-      if (isNaN(margen) || margen < 0 || margen > 95) { alert('El margen debe ser un número entre 0 y 95.'); return 'mantener'; }
+      if (!nombre) { avisoError('Escriba el nombre de la familia.'); return 'mantener'; }
+      if (isNaN(margen) || margen < 0 || margen > 95) { avisoError('El margen debe ser un número entre 0 y 95.'); return 'mantener'; }
       if (id) {
         f.nombre = nombre; f.margen = margen; f.icono = elegido.icono; f.color = elegido.color;
       } else {
@@ -1090,7 +1136,7 @@
         function (accion) {
           if (accion !== 'guardar-clave') return;
           var clave = document.getElementById('campo-clave').value.trim();
-          if (!/^\d{4}$/.test(clave)) { alert('La clave debe tener exactamente 4 números.'); return 'mantener'; }
+          if (!/^\d{4}$/.test(clave)) { avisoError('La clave debe tener exactamente 4 números.'); return 'mantener'; }
           datos.config.clave = clave;
           guardar();
         }
@@ -1109,7 +1155,7 @@
         function (accion) {
           if (accion !== 'borrar-todo') return;
           var texto = document.getElementById('campo-borrar').value.trim().toUpperCase();
-          if (texto !== 'BORRAR') { alert('Escriba la palabra BORRAR para confirmar.'); return 'mantener'; }
+          if (texto !== 'BORRAR') { avisoError('Escriba la palabra BORRAR para confirmar.'); return 'mantener'; }
           var nombre = datos.config.nombre;
           var clave = datos.config.clave;
           datos = datosIniciales();
