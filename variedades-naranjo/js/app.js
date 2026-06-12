@@ -9,6 +9,81 @@
 
   var CLAVE_DATOS = 'vn_datos_v1';
 
+  /* ---------------- iconografía corporativa (SVG) ---------------- */
+
+  var ICONOS_SVG = {
+    /* familias de productos */
+    perfume:   { n: 'Perfume',        s: '<rect x="6" y="8" width="12" height="13" rx="3"/><path d="M10 8V5h4v3"/><path d="M9 3h6"/>' },
+    gema:      { n: 'Gema',           s: '<path d="M6 3h12l4 6-10 12L2 9l4-6z"/><path d="M2 9h20"/><path d="M12 21L8 9l2-6"/><path d="M12 21l4-12-2-6"/>' },
+    collar:    { n: 'Collar',         s: '<path d="M5 3c0 7 3 11 7 11s7-4 7-11"/><circle cx="12" cy="17.5" r="2.5"/>' },
+    oso:       { n: 'Peluche',        s: '<circle cx="12" cy="13" r="7"/><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="9.5" cy="12" r="0.8" fill="currentColor"/><circle cx="14.5" cy="12" r="0.8" fill="currentColor"/><path d="M10.5 15.5a2 2 0 0 0 3 0"/>' },
+    arete:     { n: 'Arete',          s: '<circle cx="12" cy="4" r="1.5"/><path d="M12 5.5V9"/><path d="M12 9l4 4-4 8-4-8 4-4z"/>' },
+    bolso:     { n: 'Bolso',          s: '<path d="M6 9h12l1.5 10.5a1.5 1.5 0 0 1-1.5 1.5H6a1.5 1.5 0 0 1-1.5-1.5L6 9z"/><path d="M9 9V7a3 3 0 0 1 6 0v2"/>' },
+    reloj:     { n: 'Reloj',          s: '<circle cx="12" cy="12" r="7"/><path d="M12 9v3l2.5 1.5"/><path d="M9.5 3h5"/><path d="M9.5 21h5"/>' },
+    gafas:     { n: 'Gafas',          s: '<circle cx="6.5" cy="15" r="3.5"/><circle cx="17.5" cy="15" r="3.5"/><path d="M10 15a2 2 0 0 1 4 0"/><path d="M3 15l1.5-7h2"/><path d="M21 15l-1.5-7h-2"/>' },
+    labial:    { n: 'Labial',         s: '<rect x="9" y="12" width="6" height="8" rx="1"/><path d="M10 12V6l4-2v8"/>' },
+    corona:    { n: 'Corona',         s: '<path d="M3 7l4.5 4L12 4l4.5 7L21 7l-1.8 12H4.8L3 7z"/>' },
+    lazo:      { n: 'Lazo',           s: '<path d="M12 12L4 7.5v9L12 12z"/><path d="M12 12l8-4.5v9L12 12z"/><circle cx="12" cy="12" r="1.6"/>' },
+    flor:      { n: 'Flor',           s: '<circle cx="12" cy="5.2" r="2.2"/><circle cx="7.5" cy="8.5" r="2.2"/><circle cx="16.5" cy="8.5" r="2.2"/><circle cx="9.2" cy="13" r="2.2"/><circle cx="14.8" cy="13" r="2.2"/><circle cx="12" cy="9.3" r="2"/><path d="M12 15.2V22"/>' },
+    estrella:  { n: 'Estrella',       s: '<path d="M12 2.5l2.9 6.2 6.6.7-4.9 4.5 1.3 6.6L12 17.3l-5.9 3.2 1.3-6.6L2.5 9.4l6.6-.7L12 2.5z"/>' },
+    regalo:    { n: 'Regalo',         s: '<rect x="3" y="8" width="18" height="4" rx="1"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/><path d="M12 8v13"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8s1-5 4.5-5a2.5 2.5 0 0 1 0 5"/>' },
+    camiseta:  { n: 'Ropa',           s: '<path d="M16 3l5 3-2 4-2-1v12H7V9l-2 1-2-4 5-3a4 4 0 0 0 8 0z"/>' },
+    zapato:    { n: 'Calzado',        s: '<path d="M3 19v-7c2 0 4-1 6-3 3 5 6 7 12 7v3H3z"/><path d="M16 19v-3"/>' },
+    sombrero:  { n: 'Sombrero',       s: '<path d="M4 13a8 8 0 0 1 16 0v2H4v-2z"/><path d="M2 17c4 2 16 2 20 0"/>' },
+    anillo:    { n: 'Anillo',         s: '<circle cx="12" cy="14" r="6"/><path d="M12 2l3 3-3 3-3-3 3-3z"/>' },
+    medias:    { n: 'Medias',         s: '<path d="M8 2h8v9l3.5 3.5a4.5 4.5 0 0 1-6.4 6.4L8 15.4V2z"/><path d="M8 6h8"/>' },
+    tijeras:   { n: 'Peluquería',     s: '<circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M8.5 7.8L20 19"/><path d="M8.5 16.2L20 5"/>' },
+    maleta:    { n: 'Maleta',         s: '<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/><path d="M3 12h18"/>' },
+    caja:      { n: 'Caja',           s: '<path d="M21 8l-9-5-9 5v8l9 5 9-5V8z"/><path d="M3 8l9 5 9-5"/><path d="M12 13v8"/>' },
+    etiqueta:  { n: 'Etiqueta',       s: '<path d="M2 11V4a2 2 0 0 1 2-2h7l11 11-9 9L2 11z"/><circle cx="7.5" cy="7.5" r="1" fill="currentColor"/>' },
+    sol:       { n: 'Sol',            s: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="M4.9 4.9l1.4 1.4"/><path d="M17.7 17.7l1.4 1.4"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="M4.9 19.1l1.4-1.4"/><path d="M17.7 6.3l1.4-1.4"/>' },
+    /* interfaz */
+    ajustes:   { n: 'Ajustes',        s: '<line x1="21" y1="6" x2="14" y2="6"/><line x1="10" y1="6" x2="3" y2="6"/><line x1="21" y1="12" x2="12" y2="12"/><line x1="8" y1="12" x2="3" y2="12"/><line x1="21" y1="18" x2="16" y2="18"/><line x1="12" y1="18" x2="3" y2="18"/><circle cx="12" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="14" cy="18" r="2"/>' },
+    candado:   { n: 'Candado',        s: '<rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>' },
+    billetera: { n: 'Billetera',      s: '<rect x="2" y="6" width="20" height="13" rx="2"/><path d="M2 10h20"/><circle cx="16.5" cy="14.5" r="1" fill="currentColor"/>' },
+    grafica:   { n: 'Gráfica',        s: '<path d="M3 21h18"/><path d="M7 21V11"/><path d="M12 21V4"/><path d="M17 21v-7"/>' },
+    casa:      { n: 'Casa',           s: '<path d="M3 11l9-8 9 8"/><path d="M5 10v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V10"/>' },
+    bombilla:  { n: 'Bombilla',       s: '<path d="M12 2a7 7 0 0 0-4.6 12.3c.9.8 1.6 1.7 1.6 2.7h6c0-1 .7-1.9 1.6-2.7A7 7 0 0 0 12 2z"/><path d="M9 21h6"/>' },
+    documento: { n: 'Documento',      s: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/><path d="M14 2v6h6"/><path d="M8 13h8"/><path d="M8 17h5"/>' },
+    lapiz:     { n: 'Editar',         s: '<path d="M17 3a2.83 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>' },
+    basura:    { n: 'Borrar',         s: '<path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>' },
+    ojo:       { n: 'Mostrar',        s: '<path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/>' },
+    subir:     { n: 'Enviar',         s: '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5"/><path d="M12 3v13"/>' },
+    bajar:     { n: 'Recibir',        s: '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V2"/>' },
+    llave:     { n: 'Llave',          s: '<circle cx="7" cy="16" r="4"/><path d="M10 13L21 2"/><path d="M17 6l3 3"/><path d="M14 9l2 2"/>' },
+    alerta:    { n: 'Alerta',         s: '<path d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4"/><circle cx="12" cy="17" r="0.8" fill="currentColor"/>' },
+    atras:     { n: 'Atrás',          s: '<path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/>' },
+    check:     { n: 'Listo',          s: '<path d="M20 6L9 17l-5-5"/>' },
+    deshacer:  { n: 'Deshacer',       s: '<path d="M3 7v6h6"/><path d="M3 13a9 9 0 1 0 3-7.7L3 7"/>' },
+    cerrar:    { n: 'Cerrar',         s: '<path d="M18 6L6 18"/><path d="M6 6l12 12"/>' },
+    borrartecla: { n: 'Borrar dígito', s: '<path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"/><path d="M18 9l-6 6"/><path d="M12 9l6 6"/>' },
+    ayuda:     { n: 'No sé',          s: '<circle cx="12" cy="12" r="9"/><path d="M9.2 9a3 3 0 0 1 5.8 1c0 2-3 2.2-3 4"/><circle cx="12" cy="17.5" r="0.8" fill="currentColor"/>' }
+  };
+
+  /* los que aparecen en el selector al editar una familia */
+  var ICONOS = ['perfume', 'gema', 'collar', 'oso', 'arete', 'bolso', 'reloj', 'gafas', 'labial',
+    'corona', 'lazo', 'flor', 'estrella', 'regalo', 'camiseta', 'zapato', 'sombrero', 'anillo',
+    'medias', 'tijeras', 'maleta', 'caja', 'etiqueta', 'sol'];
+
+  function svgIcono(id, clase) {
+    var ic = ICONOS_SVG[id] || ICONOS_SVG.etiqueta;
+    return '<svg class="icv' + (clase ? ' ' + clase : '') + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + ic.s + '</svg>';
+  }
+
+  /* migración de la versión anterior, que guardaba emojis */
+  var EMOJI_A_ICONO = {
+    '🧴': 'perfume', '📿': 'collar', '🧸': 'oso', '✨': 'arete', '👜': 'bolso', '💍': 'anillo',
+    '💄': 'labial', '🕶️': 'gafas', '⌚': 'reloj', '🎀': 'lazo', '🧦': 'medias', '👛': 'bolso',
+    '🪞': 'gema', '🧢': 'sombrero', '🎁': 'regalo', '💅': 'labial', '🩴': 'zapato', '🛍️': 'etiqueta',
+    '📦': 'caja', '🎈': 'regalo', '🧵': 'lazo', '🪮': 'tijeras', '🌸': 'flor', '⭐': 'estrella'
+  };
+
+  function migrarIconos(d) {
+    d.familias.forEach(function (f) {
+      if (!ICONOS_SVG[f.icono]) f.icono = EMOJI_A_ICONO[f.icono] || 'etiqueta';
+    });
+  }
+
   /* ---------------- datos ---------------- */
 
   function datosIniciales() {
@@ -16,12 +91,12 @@
       version: 1,
       config: { nombre: 'Variedades Naranjo', clave: '1234', ultimoRespaldo: null },
       familias: [
-        { id: 'f1', nombre: 'Perfumería', icono: '🧴', color: '#7C3AED', margen: 40, activa: true },
-        { id: 'f2', nombre: 'Bisutería', icono: '📿', color: '#1098AD', margen: 50, activa: true },
-        { id: 'f3', nombre: 'Peluches', icono: '🧸', color: '#E64980', margen: 40, activa: true },
-        { id: 'f4', nombre: 'Aretes', icono: '✨', color: '#F08C00', margen: 50, activa: true },
-        { id: 'f5', nombre: 'Accesorios', icono: '👜', color: '#3B5BDB', margen: 50, activa: true },
-        { id: 'f6', nombre: 'Otros', icono: '🎁', color: '#2F9E44', margen: 40, activa: true }
+        { id: 'f1', nombre: 'Perfumería', icono: 'perfume', color: '#5B21B6', margen: 40, activa: true },
+        { id: 'f2', nombre: 'Bisutería', icono: 'collar', color: '#0F766E', margen: 50, activa: true },
+        { id: 'f3', nombre: 'Peluches', icono: 'oso', color: '#9D174D', margen: 40, activa: true },
+        { id: 'f4', nombre: 'Aretes', icono: 'arete', color: '#B45309', margen: 50, activa: true },
+        { id: 'f5', nombre: 'Accesorios', icono: 'bolso', color: '#1D4ED8', margen: 50, activa: true },
+        { id: 'f6', nombre: 'Otros', icono: 'regalo', color: '#15803D', margen: 40, activa: true }
       ],
       ventas: [],   // { id, familiaId, valor, fecha }
       gastos: []    // { id, tipo, familiaId|null, valor, fecha }
@@ -29,27 +104,28 @@
   }
 
   var TIPOS_GASTO = [
-    { tipo: 'arriendo', nombre: 'Arriendo', icono: '🏠', color: '#5C940D' },
-    { tipo: 'servicios', nombre: 'Servicios', icono: '💡', color: '#E8590C' },
-    { tipo: 'mercancia', nombre: 'Mercancía', icono: '📦', color: '#1971C2' },
-    { tipo: 'otro', nombre: 'Otro gasto', icono: '📝', color: '#862E9C' }
+    { tipo: 'arriendo', nombre: 'Arriendo', icono: 'casa', color: '#3F6212' },
+    { tipo: 'servicios', nombre: 'Servicios', icono: 'bombilla', color: '#9A3412' },
+    { tipo: 'mercancia', nombre: 'Mercancía', icono: 'caja', color: '#1E40AF' },
+    { tipo: 'otro', nombre: 'Otro gasto', icono: 'documento', color: '#6B21A8' }
   ];
 
-  var ICONOS = ['🧴', '📿', '🧸', '✨', '👜', '💍', '💄', '🕶️', '⌚', '🎀', '🧦', '👛', '🪞', '🧢', '🎁', '💅', '🩴', '🛍️', '📦', '🎈', '🧵', '🪮', '🌸', '⭐'];
-  var COLORES = ['#E8590C', '#7C3AED', '#1098AD', '#E64980', '#2F9E44', '#F08C00', '#3B5BDB', '#D6336C', '#0CA678', '#845EF7', '#C92A2A', '#5C940D'];
+  var COLORES = ['#9A3412', '#5B21B6', '#0F766E', '#9D174D', '#B45309', '#1D4ED8',
+    '#15803D', '#7E22CE', '#0E7490', '#A21CAF', '#B91C1C', '#374151'];
 
   var datos = cargar();
 
   function cargar() {
+    var d;
     try {
       var crudo = localStorage.getItem(CLAVE_DATOS);
-      if (!crudo) return datosIniciales();
-      var d = JSON.parse(crudo);
-      if (!d || !d.familias || !d.ventas || !d.gastos || !d.config) return datosIniciales();
-      return d;
+      d = crudo ? JSON.parse(crudo) : null;
+      if (!d || !d.familias || !d.ventas || !d.gastos || !d.config) d = datosIniciales();
     } catch (e) {
-      return datosIniciales();
+      d = datosIniciales();
     }
+    migrarIconos(d);
+    return d;
   }
 
   function guardar() {
@@ -80,6 +156,21 @@
 
   function fmt(n) {
     return '$ ' + fmtCO.format(Math.round(n));
+  }
+
+  /* degradado elegante a partir del color de la familia */
+  function mezclar(hex, hacia, factor) {
+    var r = parseInt(hex.slice(1, 3), 16);
+    var g = parseInt(hex.slice(3, 5), 16);
+    var b = parseInt(hex.slice(5, 7), 16);
+    r = Math.round(r + (hacia - r) * factor);
+    g = Math.round(g + (hacia - g) * factor);
+    b = Math.round(b + (hacia - b) * factor);
+    return 'rgb(' + r + ',' + g + ',' + b + ')';
+  }
+
+  function fondoElegante(color) {
+    return 'linear-gradient(165deg, ' + mezclar(color, 255, 0.16) + ' 0%, ' + color + ' 55%, ' + mezclar(color, 0, 0.25) + ' 100%)';
   }
 
   function numeroALetras(n) {
@@ -163,6 +254,13 @@
     } catch (e) { /* sin sonido, no pasa nada */ }
   }
 
+  /* íconos fijos del HTML (encabezados, navegación, teclas) */
+  function pintarIconosEstaticos() {
+    document.querySelectorAll('[data-svg]').forEach(function (el) {
+      el.innerHTML = svgIcono(el.getAttribute('data-svg'));
+    });
+  }
+
   /* ---------------- navegación ---------------- */
 
   function irA(nombre) {
@@ -192,8 +290,8 @@
       if (!f.activa) return;
       var btn = document.createElement('button');
       btn.className = 'btn-familia';
-      btn.style.background = f.color;
-      btn.innerHTML = '<span class="icono">' + f.icono + '</span>' + escaparHtml(f.nombre);
+      btn.style.background = fondoElegante(f.color);
+      btn.innerHTML = '<span class="icono">' + svgIcono(f.icono) + '</span>' + escaparHtml(f.nombre);
       btn.onclick = function () { abrirTeclado({ modo: 'venta', familiaId: f.id }); };
       grid.appendChild(btn);
     });
@@ -214,8 +312,8 @@
     var v = ultimaVentaDeHoy();
     if (!v) { banner.classList.add('oculto'); return; }
     var f = familiaPorId(v.familiaId);
-    document.getElementById('banner-detalle').textContent =
-      (f ? f.icono + ' ' + f.nombre : 'Venta') + ' — ' + fmt(v.valor);
+    document.getElementById('banner-detalle').innerHTML =
+      (f ? svgIcono(f.icono) + ' ' + escaparHtml(f.nombre) : 'Venta') + ' — ' + fmt(v.valor);
     banner.classList.remove('oculto');
   }
 
@@ -226,7 +324,7 @@
     abrirModal(
       '<h2>¿Borrar esta venta?</h2>' +
       '<p style="font-size:1.3rem;font-weight:800;text-align:center;">' +
-      (f ? f.icono + ' ' + escaparHtml(f.nombre) : '') + '<br>' + fmt(v.valor) + '</p>' +
+      (f ? svgIcono(f.icono) + ' ' + escaparHtml(f.nombre) : '') + '<br>' + fmt(v.valor) + '</p>' +
       '<div class="modal-acciones">' +
       '<button class="btn-grande btn-cancelar" data-accion="cerrar">No, dejarla</button>' +
       '<button class="btn-grande btn-rojo" data-accion="borrar-ultima">Sí, borrarla</button>' +
@@ -249,8 +347,8 @@
     TIPOS_GASTO.forEach(function (t) {
       var btn = document.createElement('button');
       btn.className = 'btn-familia';
-      btn.style.background = t.color;
-      btn.innerHTML = '<span class="icono">' + t.icono + '</span>' + t.nombre;
+      btn.style.background = fondoElegante(t.color);
+      btn.innerHTML = '<span class="icono">' + svgIcono(t.icono) + '</span>' + t.nombre;
       btn.onclick = function () {
         if (t.tipo === 'mercancia') {
           pintarFamiliaGasto();
@@ -270,15 +368,15 @@
       if (!f.activa) return;
       var btn = document.createElement('button');
       btn.className = 'btn-familia';
-      btn.style.background = f.color;
-      btn.innerHTML = '<span class="icono">' + f.icono + '</span>' + escaparHtml(f.nombre);
+      btn.style.background = fondoElegante(f.color);
+      btn.innerHTML = '<span class="icono">' + svgIcono(f.icono) + '</span>' + escaparHtml(f.nombre);
       btn.onclick = function () { abrirTeclado({ modo: 'gasto', tipo: 'mercancia', familiaId: f.id }); };
       grid.appendChild(btn);
     });
     var btn = document.createElement('button');
     btn.className = 'btn-familia';
-    btn.style.background = '#868E96';
-    btn.innerHTML = '<span class="icono">🤷</span>No sé / Varias';
+    btn.style.background = fondoElegante('#57534E');
+    btn.innerHTML = '<span class="icono">' + svgIcono('ayuda') + '</span>No sé / Varias';
     btn.onclick = function () { abrirTeclado({ modo: 'gasto', tipo: 'mercancia', familiaId: null }); };
     grid.appendChild(btn);
   }
@@ -297,8 +395,8 @@
     var ctx = document.getElementById('teclado-contexto');
     if (teclado.modo === 'venta') {
       var f = familiaPorId(teclado.familiaId);
-      ctx.innerHTML = '<span class="icono">' + (f ? f.icono : '🛍️') + '</span> Venta de ' + escaparHtml(f ? f.nombre : '');
-      ctx.style.color = f ? f.color : 'inherit';
+      ctx.innerHTML = '<span class="icono" style="background:' + (f ? f.color : '#57534E') + '">' +
+        svgIcono(f ? f.icono : 'etiqueta') + '</span> Venta de ' + escaparHtml(f ? f.nombre : '');
     } else {
       var t = tipoGastoPorId(teclado.tipo);
       var extra = '';
@@ -306,8 +404,8 @@
         var fg = familiaPorId(teclado.familiaId);
         if (fg) extra = ' (' + escaparHtml(fg.nombre) + ')';
       }
-      ctx.innerHTML = '<span class="icono">' + t.icono + '</span> Gasto: ' + t.nombre + extra;
-      ctx.style.color = t.color;
+      ctx.innerHTML = '<span class="icono" style="background:' + t.color + '">' +
+        svgIcono(t.icono) + '</span> Gasto: ' + t.nombre + extra;
     }
     pintarMonto();
     irA('teclado');
@@ -316,7 +414,7 @@
   function pintarMonto() {
     var valor = parseInt(teclado.digitos || '0', 10);
     document.getElementById('teclado-monto').textContent = fmt(valor);
-    document.getElementById('teclado-letras').textContent = valor > 0 ? numeroALetras(valor) : ' ';
+    document.getElementById('teclado-letras').textContent = valor > 0 ? numeroALetras(valor) : ' ';
     document.getElementById('btn-teclado-guardar').disabled = valor <= 0;
   }
 
@@ -358,12 +456,12 @@
       datos.ventas.push({ id: nuevoId(), familiaId: teclado.familiaId, valor: valor, fecha: new Date().toISOString() });
       guardar();
       var f = familiaPorId(teclado.familiaId);
-      mostrarConfirmacion('¡Venta guardada!', (f ? f.icono + ' ' + f.nombre : ''), valor, false);
+      mostrarConfirmacion('¡Venta guardada!', (f ? svgIcono(f.icono) + ' ' + escaparHtml(f.nombre) : ''), valor, false);
     } else {
       datos.gastos.push({ id: nuevoId(), tipo: teclado.tipo, familiaId: teclado.familiaId, valor: valor, fecha: new Date().toISOString() });
       guardar();
       var t = tipoGastoPorId(teclado.tipo);
-      mostrarConfirmacion('Gasto guardado', t.icono + ' ' + t.nombre, valor, true);
+      mostrarConfirmacion('Gasto guardado', svgIcono(t.icono) + ' ' + t.nombre, valor, true);
     }
   };
 
@@ -371,11 +469,11 @@
 
   var confirmacionTimer = null;
 
-  function mostrarConfirmacion(titulo, detalle, valor, esGasto) {
+  function mostrarConfirmacion(titulo, detalleHtml, valor, esGasto) {
     var overlay = document.getElementById('overlay-confirmacion');
     overlay.classList.toggle('gasto', !!esGasto);
     document.getElementById('confirmacion-titulo').textContent = titulo;
-    document.getElementById('confirmacion-detalle').textContent = detalle;
+    document.getElementById('confirmacion-detalle').innerHTML = detalleHtml;
     document.getElementById('confirmacion-monto').textContent = fmt(valor);
     document.getElementById('confirmacion-letras').textContent = numeroALetras(valor);
     overlay.classList.remove('oculto');
@@ -423,7 +521,7 @@
         var p = porFamilia[f.id];
         if (!p) return;
         html += '<div class="fila-familia">' +
-          '<span class="nombre">' + f.icono + ' ' + escaparHtml(f.nombre) +
+          '<span class="nombre">' + svgIcono(f.icono) + ' ' + escaparHtml(f.nombre) +
           '<span class="cuantas">(' + p.n + ')</span></span>' +
           '<span class="valor">' + fmt(p.total) + '</span></div>';
       });
@@ -432,12 +530,12 @@
 
     if (gastosHoy.length) {
       html += '<div class="tarjeta"><div class="fila-familia">' +
-        '<span class="nombre">💸 Gastos de hoy</span>' +
+        '<span class="nombre">' + svgIcono('billetera') + ' Gastos de hoy</span>' +
         '<span class="valor" style="color:var(--rojo)">' + fmt(totalGastos) + '</span></div></div>';
     }
 
     if (!ventasHoy.length && !gastosHoy.length) {
-      html += '<div class="tarjeta" style="text-align:center;font-size:1.15rem;color:var(--gris)">Todavía no hay ventas hoy.<br>¡Ánimo! 💪</div>';
+      html += '<div class="tarjeta" style="text-align:center;font-size:1.15rem;color:var(--tinta-suave)">Todavía no hay ventas hoy.<br>¡Ánimo!</div>';
     }
 
     document.getElementById('midia-contenido').innerHTML = html;
@@ -450,7 +548,7 @@
   document.getElementById('btn-admin').onclick = function () {
     claveEscrita = '';
     pintarPuntos();
-    document.getElementById('clave-error').textContent = ' ';
+    document.getElementById('clave-error').textContent = ' ';
     irA('clave');
   };
 
@@ -591,14 +689,14 @@
     html += '</div>';
 
     html += '<div class="resumen-cifras">' +
-      '<div class="cifra"><p class="etiqueta">🛍️ Ventas</p><p class="numero">' + fmt(totalVentas) + '</p><p class="nota">' + ventas.length + ' ventas</p></div>' +
-      '<div class="cifra"><p class="etiqueta">📈 Ganancia bruta</p><p class="numero positivo">' + fmt(utilidadBruta) + '</p><p class="nota">según margen de cada familia</p></div>' +
-      '<div class="cifra"><p class="etiqueta">🏠 Gastos del local</p><p class="numero negativo">' + fmt(gastosOperativos) + '</p><p class="nota">arriendo, servicios y otros</p></div>' +
-      '<div class="cifra"><p class="etiqueta">💰 Ganancia real</p><p class="numero ' + (utilidadNeta >= 0 ? 'positivo' : 'negativo') + '">' + fmt(utilidadNeta) + '</p><p class="nota">' + (utilidadNeta >= 0 ? 'el local está ganando' : 'el local está perdiendo') + '</p></div>' +
+      '<div class="cifra"><p class="etiqueta">' + svgIcono('etiqueta') + ' Ventas</p><p class="numero">' + fmt(totalVentas) + '</p><p class="nota">' + ventas.length + ' ventas</p></div>' +
+      '<div class="cifra"><p class="etiqueta">' + svgIcono('grafica') + ' Ganancia bruta</p><p class="numero positivo">' + fmt(utilidadBruta) + '</p><p class="nota">según margen de cada familia</p></div>' +
+      '<div class="cifra"><p class="etiqueta">' + svgIcono('casa') + ' Gastos del local</p><p class="numero negativo">' + fmt(gastosOperativos) + '</p><p class="nota">arriendo, servicios y otros</p></div>' +
+      '<div class="cifra"><p class="etiqueta">' + svgIcono('billetera') + ' Ganancia real</p><p class="numero ' + (utilidadNeta >= 0 ? 'positivo' : 'negativo') + '">' + fmt(utilidadNeta) + '</p><p class="nota">' + (utilidadNeta >= 0 ? 'el local está ganando' : 'el local está perdiendo') + '</p></div>' +
       '</div>';
 
     if (gastoMercancia > 0) {
-      html += '<div class="aviso">📦 Además se invirtieron <b>' + fmt(gastoMercancia) + '</b> en compra de mercancía. ' +
+      html += '<div class="aviso">Además se invirtieron <b>' + fmt(gastoMercancia) + '</b> en compra de mercancía. ' +
         'No se resta de la ganancia porque el margen de cada familia ya descuenta lo que costó el producto: es plata que quedó surtida en el local.</div>';
     }
 
@@ -616,7 +714,7 @@
         var ancho = maximo ? Math.round(p.total / maximo * 100) : 0;
         var ganancia = p.total * f.margen / 100;
         html += '<div class="barra-fila">' +
-          '<div class="barra-encima"><span>' + f.icono + ' ' + escaparHtml(f.nombre) +
+          '<div class="barra-encima"><span class="nombre-barra">' + svgIcono(f.icono) + ' ' + escaparHtml(f.nombre) +
           ' <span class="detalle">(' + p.n + ' ventas · gana ' + fmt(ganancia) + ')</span></span>' +
           '<span>' + fmt(p.total) + '</span></div>' +
           '<div class="barra-fondo"><div class="barra-relleno" style="width:' + ancho + '%;background:' + f.color + '"></div></div>' +
@@ -624,7 +722,7 @@
       });
       html += '</div>';
     } else {
-      html += '<div class="tarjeta" style="text-align:center;color:var(--gris)">No hay ventas en este periodo.</div>';
+      html += '<div class="tarjeta" style="text-align:center;color:var(--tinta-suave)">No hay ventas en este periodo.</div>';
     }
 
     // gastos por tipo
@@ -632,7 +730,7 @@
       html += '<p class="titulo-seccion">Gastos del periodo</p><div class="tarjeta">';
       TIPOS_GASTO.forEach(function (t) {
         if (!porTipoGasto[t.tipo]) return;
-        html += '<div class="fila-familia"><span class="nombre">' + t.icono + ' ' + t.nombre + '</span>' +
+        html += '<div class="fila-familia"><span class="nombre">' + svgIcono(t.icono) + ' ' + t.nombre + '</span>' +
           '<span class="valor">' + fmt(porTipoGasto[t.tipo]) + '</span></div>';
       });
       html += '</div>';
@@ -654,13 +752,12 @@
     var html = '<div class="aviso">El <b>margen</b> es el porcentaje de ganancia: si la perfumería deja el 40%, de una venta de $100.000 la ganancia es $40.000.</div>';
     datos.familias.forEach(function (f) {
       html += '<div class="fila-admin' + (f.activa ? '' : ' inactiva') + '">' +
-        '<div class="info"><span class="punto-color" style="background:' + f.color + '"></span>' +
-        '<span class="icono">' + f.icono + '</span>' +
+        '<div class="info"><span class="insignia" style="background:' + f.color + '">' + svgIcono(f.icono) + '</span>' +
         '<div class="textos"><p class="nombre">' + escaparHtml(f.nombre) + (f.activa ? '' : ' (oculta)') + '</p>' +
         '<p class="sub">Margen de ganancia: ' + f.margen + '%</p></div></div>' +
         '<div class="acciones">' +
-        '<button class="btn-mini" data-editar-familia="' + f.id + '">✏️</button>' +
-        '<button class="btn-mini peligro" data-quitar-familia="' + f.id + '">' + (f.activa ? '🗑️' : '👁️') + '</button>' +
+        '<button class="btn-mini" data-editar-familia="' + f.id + '" aria-label="Editar">' + svgIcono('lapiz') + '</button>' +
+        '<button class="btn-mini peligro" data-quitar-familia="' + f.id + '" aria-label="' + (f.activa ? 'Ocultar' : 'Mostrar') + '">' + svgIcono(f.activa ? 'basura' : 'ojo') + '</button>' +
         '</div></div>';
     });
     html += '<button class="btn-agregar" id="btn-agregar-familia">＋ Agregar familia</button>';
@@ -684,7 +781,7 @@
       '<div class="campo"><label>Margen de ganancia (%)</label><input id="campo-margen" type="number" inputmode="numeric" min="0" max="95" value="' + f.margen + '"></div>' +
       '<div class="campo"><label>Ícono</label><div class="selector-iconos">' +
       ICONOS.map(function (ic) {
-        return '<button class="opcion-icono' + (ic === f.icono ? ' elegido' : '') + '" data-icono="' + ic + '">' + ic + '</button>';
+        return '<button class="opcion-icono' + (ic === f.icono ? ' elegido' : '') + '" data-icono="' + ic + '" title="' + ICONOS_SVG[ic].n + '" aria-label="' + ICONOS_SVG[ic].n + '">' + svgIcono(ic) + '</button>';
       }).join('') + '</div></div>' +
       '<div class="campo"><label>Color del botón</label><div class="selector-colores">' +
       COLORES.map(function (c) {
@@ -692,7 +789,7 @@
       }).join('') + '</div></div>' +
       '<div class="modal-acciones">' +
       '<button class="btn-grande btn-cancelar" data-accion="cerrar">Cancelar</button>' +
-      '<button class="btn-grande btn-guardar" data-accion="guardar-familia">✔ Guardar</button>' +
+      '<button class="btn-grande btn-guardar" data-accion="guardar-familia">' + svgIcono('check') + ' Guardar</button>' +
       '</div>';
 
     abrirModal(html, function (accion) {
@@ -785,7 +882,7 @@
       '</div>';
 
     if (!recortada.length) {
-      html += '<div class="tarjeta" style="text-align:center;color:var(--gris)">No hay registros todavía.</div>';
+      html += '<div class="tarjeta" style="text-align:center;color:var(--tinta-suave)">No hay registros todavía.</div>';
     }
 
     recortada.forEach(function (x) {
@@ -793,7 +890,7 @@
       if (x.clase === 'venta') {
         var f = familiaPorId(x.m.familiaId);
         etiqueta = f ? f.nombre : 'Venta';
-        icono = f ? f.icono : '🛍️';
+        icono = f ? f.icono : 'etiqueta';
       } else {
         var t = tipoGastoPorId(x.m.tipo);
         etiqueta = t.nombre;
@@ -804,17 +901,17 @@
         icono = t.icono;
       }
       html += '<div class="fila-admin fila-mov">' +
-        '<div class="info"><span class="icono">' + icono + '</span>' +
+        '<div class="info"><span class="insignia-mov">' + svgIcono(icono) + '</span>' +
         '<div class="textos"><p class="nombre">' + escaparHtml(etiqueta) + '</p>' +
         '<p class="sub">' + fechaCorta(x.m.fecha) + '</p></div></div>' +
         '<div class="acciones"><span class="monto ' + x.clase + '">' + (x.clase === 'gasto' ? '−' : '') + fmt(x.m.valor) + '</span>' +
-        '<button class="btn-mini" data-editar-mov="' + x.m.id + '">✏️</button>' +
-        '<button class="btn-mini peligro" data-borrar-mov="' + x.m.id + '">🗑️</button>' +
+        '<button class="btn-mini" data-editar-mov="' + x.m.id + '" aria-label="Editar">' + svgIcono('lapiz') + '</button>' +
+        '<button class="btn-mini peligro" data-borrar-mov="' + x.m.id + '" aria-label="Borrar">' + svgIcono('basura') + '</button>' +
         '</div></div>';
     });
 
     if (lista.length > recortada.length) {
-      html += '<p style="text-align:center;color:var(--gris);font-size:0.85rem">Mostrando los ' + recortada.length + ' más recientes de ' + lista.length + '.</p>';
+      html += '<p style="text-align:center;color:var(--tinta-suave);font-size:0.85rem">Mostrando los ' + recortada.length + ' más recientes de ' + lista.length + '.</p>';
     }
 
     document.getElementById('admin-contenido').innerHTML = html;
@@ -876,12 +973,12 @@
       ? fechaCorta(datos.config.ultimoRespaldo)
       : 'Nunca se ha hecho';
     var html =
-      '<div class="tarjeta"><div class="fila-familia"><span class="nombre">🛍️ Ventas guardadas</span><span class="valor">' + datos.ventas.length + '</span></div>' +
-      '<div class="fila-familia"><span class="nombre">💸 Gastos guardados</span><span class="valor">' + datos.gastos.length + '</span></div>' +
-      '<div class="fila-familia"><span class="nombre">💾 Último respaldo</span><span class="valor">' + ultimo + '</span></div></div>' +
-      '<button class="btn-bloque principal" id="btn-respaldar"><span class="icono">📤</span><span>Enviar respaldo<small>Comparte un archivo por WhatsApp o lo descarga</small></span></button>' +
-      '<button class="btn-bloque" id="btn-restaurar"><span class="icono">📥</span><span>Restaurar desde un archivo<small>Recupera todo en una tablet nueva</small></span></button>' +
-      '<div class="aviso">💡 Hagan un respaldo <b>al menos una vez por semana</b>. Si la tablet se daña o se pierde, con el archivo del respaldo se recupera toda la contabilidad.</div>';
+      '<div class="tarjeta"><div class="fila-familia"><span class="nombre">' + svgIcono('etiqueta') + ' Ventas guardadas</span><span class="valor">' + datos.ventas.length + '</span></div>' +
+      '<div class="fila-familia"><span class="nombre">' + svgIcono('billetera') + ' Gastos guardados</span><span class="valor">' + datos.gastos.length + '</span></div>' +
+      '<div class="fila-familia"><span class="nombre">' + svgIcono('reloj') + ' Último respaldo</span><span class="valor">' + ultimo + '</span></div></div>' +
+      '<button class="btn-bloque principal" id="btn-respaldar"><span class="icono-bloque">' + svgIcono('subir') + '</span><span>Enviar respaldo<small>Comparte un archivo por WhatsApp o lo descarga</small></span></button>' +
+      '<button class="btn-bloque" id="btn-restaurar"><span class="icono-bloque">' + svgIcono('bajar') + '</span><span>Restaurar desde un archivo<small>Recupera todo en una tablet nueva</small></span></button>' +
+      '<div class="aviso">Hagan un respaldo <b>al menos una vez por semana</b>. Si la tablet se daña o se pierde, con el archivo del respaldo se recupera toda la contabilidad.</div>';
     document.getElementById('admin-contenido').innerHTML = html;
 
     document.getElementById('btn-respaldar').onclick = hacerRespaldo;
@@ -952,6 +1049,7 @@
         function (accion) {
           if (accion === 'restaurar') {
             datos = paquete.datos;
+            migrarIconos(datos);
             guardar();
             pintarTabAdmin('respaldo');
           }
@@ -968,8 +1066,8 @@
       '<div class="tarjeta"><div class="campo"><label>Nombre del local</label>' +
       '<input id="campo-nombre-local" type="text" maxlength="30" value="' + escaparHtml(datos.config.nombre) + '"></div>' +
       '<button class="btn-agregar" id="btn-guardar-nombre" style="margin-top:0.8rem;width:100%">Guardar nombre</button></div>' +
-      '<button class="btn-bloque" id="btn-cambiar-clave"><span class="icono">🔑</span><span>Cambiar la clave de administración<small>La clave actual tiene 4 números</small></span></button>' +
-      '<button class="btn-bloque peligro" id="btn-borrar-todo"><span class="icono">⚠️</span><span>Borrar TODOS los datos<small>Empieza de cero. No se puede deshacer.</small></span></button>';
+      '<button class="btn-bloque" id="btn-cambiar-clave"><span class="icono-bloque">' + svgIcono('llave') + '</span><span>Cambiar la clave de administración<small>La clave actual tiene 4 números</small></span></button>' +
+      '<button class="btn-bloque peligro" id="btn-borrar-todo"><span class="icono-bloque">' + svgIcono('alerta') + '</span><span>Borrar TODOS los datos<small>Empieza de cero. No se puede deshacer.</small></span></button>';
     document.getElementById('admin-contenido').innerHTML = html;
 
     document.getElementById('btn-guardar-nombre').onclick = function () {
@@ -977,7 +1075,7 @@
       if (!nombre) return;
       datos.config.nombre = nombre;
       guardar();
-      abrirModal('<h2>✔ Listo</h2><p>El nombre quedó guardado.</p>' +
+      abrirModal('<h2>Listo</h2><p>El nombre quedó guardado.</p>' +
         '<div class="modal-acciones"><button class="btn-grande btn-guardar" data-accion="cerrar">Entendido</button></div>', function () {});
     };
 
@@ -988,7 +1086,7 @@
         '<input id="campo-clave" type="tel" inputmode="numeric" maxlength="4" placeholder="••••"></div>' +
         '<div class="modal-acciones">' +
         '<button class="btn-grande btn-cancelar" data-accion="cerrar">Cancelar</button>' +
-        '<button class="btn-grande btn-guardar" data-accion="guardar-clave">✔ Guardar</button></div>',
+        '<button class="btn-grande btn-guardar" data-accion="guardar-clave">' + svgIcono('check') + ' Guardar</button></div>',
         function (accion) {
           if (accion !== 'guardar-clave') return;
           var clave = document.getElementById('campo-clave').value.trim();
@@ -1001,7 +1099,7 @@
 
     document.getElementById('btn-borrar-todo').onclick = function () {
       abrirModal(
-        '<h2>⚠️ Borrar todo</h2>' +
+        '<h2>Borrar todo</h2>' +
         '<p>Se borrarán <b>' + datos.ventas.length + ' ventas</b> y <b>' + datos.gastos.length + ' gastos</b> para siempre. ' +
         'Si no está seguro, haga primero un respaldo.</p>' +
         '<div class="campo"><label>Para confirmar, escriba BORRAR</label><input id="campo-borrar" type="text" autocapitalize="characters"></div>' +
@@ -1055,6 +1153,7 @@
   /* ---------------- arranque ---------------- */
 
   guardar(); // asegura que los datos iniciales queden grabados desde la primera vez
+  pintarIconosEstaticos();
   pintarVentas();
 
 })();

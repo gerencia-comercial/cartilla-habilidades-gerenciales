@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#E8590C">
+  <meta name="theme-color" content="#1C1917">
   <meta name="description" content="Contabilidad simple para Variedades Naranjo">
   <title>Variedades Naranjo</title>
   <link rel="manifest" href="manifest.json">
@@ -17,31 +17,31 @@
   <section id="pantalla-ventas" class="pantalla activa">
     <header class="encabezado">
       <div class="encabezado-titulo">
-        <span class="logo">🍊</span>
+        <span class="logo-marca">VN</span>
         <div>
           <h1 id="nombre-local">Variedades Naranjo</h1>
           <p id="fecha-hoy" class="fecha"></p>
         </div>
       </div>
-      <button id="btn-admin" class="btn-engranaje" aria-label="Administración">⚙️</button>
+      <button id="btn-admin" class="btn-engranaje" aria-label="Administración" data-svg="ajustes"></button>
     </header>
 
-    <p class="instruccion">Toque lo que vendió:</p>
+    <p class="instruccion">Toque lo que vendió</p>
 
     <div id="grid-familias" class="grid-familias"></div>
 
     <div id="banner-ultima" class="banner-ultima oculto">
       <div class="banner-texto">
-        <span class="banner-etiqueta">Última venta:</span>
+        <span class="banner-etiqueta">Última venta</span>
         <span id="banner-detalle"></span>
       </div>
-      <button id="btn-deshacer" class="btn-deshacer">Me equivoqué ↩</button>
+      <button id="btn-deshacer" class="btn-deshacer"><span data-svg="deshacer"></span> Me equivoqué</button>
     </div>
 
     <nav class="barra-nav">
-      <button class="nav-btn nav-activo" data-ir="ventas"><span>🛍️</span>VENDER</button>
-      <button class="nav-btn" data-ir="gastos"><span>💸</span>GASTOS</button>
-      <button class="nav-btn" data-ir="midia"><span>⭐</span>MI DÍA</button>
+      <button class="nav-btn nav-activo" data-ir="ventas"><span class="nav-ico" data-svg="etiqueta"></span>VENDER</button>
+      <button class="nav-btn" data-ir="gastos"><span class="nav-ico" data-svg="billetera"></span>GASTOS</button>
+      <button class="nav-btn" data-ir="midia"><span class="nav-ico" data-svg="sol"></span>MI DÍA</button>
     </nav>
   </section>
 
@@ -49,7 +49,7 @@
   <section id="pantalla-gastos" class="pantalla">
     <header class="encabezado">
       <div class="encabezado-titulo">
-        <span class="logo">💸</span>
+        <span class="logo-icono" data-svg="billetera"></span>
         <div>
           <h1>Gastos</h1>
           <p class="fecha">¿Qué pagó o compró?</p>
@@ -60,9 +60,9 @@
     <div class="grid-familias grid-gastos" id="grid-gastos"></div>
 
     <nav class="barra-nav">
-      <button class="nav-btn" data-ir="ventas"><span>🛍️</span>VENDER</button>
-      <button class="nav-btn nav-activo" data-ir="gastos"><span>💸</span>GASTOS</button>
-      <button class="nav-btn" data-ir="midia"><span>⭐</span>MI DÍA</button>
+      <button class="nav-btn" data-ir="ventas"><span class="nav-ico" data-svg="etiqueta"></span>VENDER</button>
+      <button class="nav-btn nav-activo" data-ir="gastos"><span class="nav-ico" data-svg="billetera"></span>GASTOS</button>
+      <button class="nav-btn" data-ir="midia"><span class="nav-ico" data-svg="sol"></span>MI DÍA</button>
     </nav>
   </section>
 
@@ -70,7 +70,7 @@
   <section id="pantalla-familia-gasto" class="pantalla">
     <header class="encabezado">
       <div class="encabezado-titulo">
-        <span class="logo">📦</span>
+        <span class="logo-icono" data-svg="caja"></span>
         <div>
           <h1>Mercancía</h1>
           <p class="fecha">¿De qué familia es la mercancía?</p>
@@ -78,7 +78,7 @@
       </div>
     </header>
     <div id="grid-familia-gasto" class="grid-familias"></div>
-    <button class="btn-grande btn-cancelar" data-ir="gastos">⬅ Volver</button>
+    <button class="btn-grande btn-cancelar btn-volver-grande" data-ir="gastos"><span data-svg="atras"></span> Volver</button>
   </section>
 
   <!-- ============ PANTALLA: TECLADO ============ -->
@@ -100,11 +100,11 @@
       <button class="tecla" data-tecla="9">9</button>
       <button class="tecla tecla-miles" data-tecla="000">.000</button>
       <button class="tecla" data-tecla="0">0</button>
-      <button class="tecla tecla-borrar" data-tecla="borrar">⌫</button>
+      <button class="tecla tecla-borrar" data-tecla="borrar" aria-label="Borrar"><span data-svg="borrartecla"></span></button>
     </div>
     <div class="teclado-acciones">
-      <button id="btn-teclado-cancelar" class="btn-grande btn-cancelar">✖ Cancelar</button>
-      <button id="btn-teclado-guardar" class="btn-grande btn-guardar" disabled>✔ GUARDAR</button>
+      <button id="btn-teclado-cancelar" class="btn-grande btn-cancelar">Cancelar</button>
+      <button id="btn-teclado-guardar" class="btn-grande btn-guardar" disabled><span data-svg="check"></span> GUARDAR</button>
     </div>
   </section>
 
@@ -112,7 +112,7 @@
   <section id="pantalla-midia" class="pantalla">
     <header class="encabezado">
       <div class="encabezado-titulo">
-        <span class="logo">⭐</span>
+        <span class="logo-icono" data-svg="sol"></span>
         <div>
           <h1>Mi día</h1>
           <p id="midia-fecha" class="fecha"></p>
@@ -123,9 +123,9 @@
     <div id="midia-contenido" class="midia-contenido"></div>
 
     <nav class="barra-nav">
-      <button class="nav-btn" data-ir="ventas"><span>🛍️</span>VENDER</button>
-      <button class="nav-btn" data-ir="gastos"><span>💸</span>GASTOS</button>
-      <button class="nav-btn nav-activo" data-ir="midia"><span>⭐</span>MI DÍA</button>
+      <button class="nav-btn" data-ir="ventas"><span class="nav-ico" data-svg="etiqueta"></span>VENDER</button>
+      <button class="nav-btn" data-ir="gastos"><span class="nav-ico" data-svg="billetera"></span>GASTOS</button>
+      <button class="nav-btn nav-activo" data-ir="midia"><span class="nav-ico" data-svg="sol"></span>MI DÍA</button>
     </nav>
   </section>
 
@@ -133,7 +133,7 @@
   <section id="pantalla-clave" class="pantalla">
     <header class="encabezado">
       <div class="encabezado-titulo">
-        <span class="logo">🔒</span>
+        <span class="logo-icono" data-svg="candado"></span>
         <div>
           <h1>Administración</h1>
           <p class="fecha">Escriba la clave</p>
@@ -154,24 +154,24 @@
       <button class="tecla" data-clave="7">7</button>
       <button class="tecla" data-clave="8">8</button>
       <button class="tecla" data-clave="9">9</button>
-      <button class="tecla tecla-borrar" data-clave="cancelar">✖</button>
+      <button class="tecla tecla-borrar" data-clave="cancelar" aria-label="Cancelar"><span data-svg="cerrar"></span></button>
       <button class="tecla" data-clave="0">0</button>
-      <button class="tecla tecla-borrar" data-clave="borrar">⌫</button>
+      <button class="tecla tecla-borrar" data-clave="borrar" aria-label="Borrar"><span data-svg="borrartecla"></span></button>
     </div>
   </section>
 
   <!-- ============ PANTALLA: ADMINISTRACIÓN ============ -->
   <section id="pantalla-admin" class="pantalla">
     <header class="encabezado encabezado-admin">
-      <button id="btn-admin-salir" class="btn-volver">⬅ Salir</button>
+      <button id="btn-admin-salir" class="btn-volver"><span data-svg="atras"></span> Salir</button>
       <h1>Administración</h1>
     </header>
     <div class="admin-tabs">
-      <button class="tab tab-activo" data-tab="reportes">📊 Reportes</button>
-      <button class="tab" data-tab="familias">🏷️ Familias</button>
-      <button class="tab" data-tab="movimientos">📋 Registros</button>
-      <button class="tab" data-tab="respaldo">💾 Respaldo</button>
-      <button class="tab" data-tab="ajustes">⚙️ Ajustes</button>
+      <button class="tab tab-activo" data-tab="reportes"><span data-svg="grafica"></span>Reportes</button>
+      <button class="tab" data-tab="familias"><span data-svg="etiqueta"></span>Familias</button>
+      <button class="tab" data-tab="movimientos"><span data-svg="documento"></span>Registros</button>
+      <button class="tab" data-tab="respaldo"><span data-svg="subir"></span>Respaldo</button>
+      <button class="tab" data-tab="ajustes"><span data-svg="ajustes"></span>Ajustes</button>
     </div>
     <div id="admin-contenido" class="admin-contenido"></div>
   </section>
@@ -179,7 +179,7 @@
   <!-- ============ CONFIRMACIÓN ============ -->
   <div id="overlay-confirmacion" class="overlay-confirmacion oculto">
     <div class="confirmacion-caja">
-      <div class="confirmacion-check">✔</div>
+      <div class="confirmacion-check" data-svg="check"></div>
       <h2 id="confirmacion-titulo">¡Venta guardada!</h2>
       <p id="confirmacion-detalle"></p>
       <p id="confirmacion-monto"></p>
