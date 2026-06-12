@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#E8590C">
+  <meta name="description" content="Contabilidad simple para Variedades Naranjo">
+  <title>Variedades Naranjo</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="iconos/icono-192.png">
+  <link rel="apple-touch-icon" href="iconos/icono-192.png">
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+
+  <!-- ============ PANTALLA: VENDER (inicio) ============ -->
+  <section id="pantalla-ventas" class="pantalla activa">
+    <header class="encabezado">
+      <div class="encabezado-titulo">
+        <span class="logo">🍊</span>
+        <div>
+          <h1 id="nombre-local">Variedades Naranjo</h1>
+          <p id="fecha-hoy" class="fecha"></p>
+        </div>
+      </div>
+      <button id="btn-admin" class="btn-engranaje" aria-label="Administración">⚙️</button>
+    </header>
+
+    <p class="instruccion">Toque lo que vendió:</p>
+
+    <div id="grid-familias" class="grid-familias"></div>
+
+    <div id="banner-ultima" class="banner-ultima oculto">
+      <div class="banner-texto">
+        <span class="banner-etiqueta">Última venta:</span>
+        <span id="banner-detalle"></span>
+      </div>
+      <button id="btn-deshacer" class="btn-deshacer">Me equivoqué ↩</button>
+    </div>
+
+    <nav class="barra-nav">
+      <button class="nav-btn nav-activo" data-ir="ventas"><span>🛍️</span>VENDER</button>
+      <button class="nav-btn" data-ir="gastos"><span>💸</span>GASTOS</button>
+      <button class="nav-btn" data-ir="midia"><span>⭐</span>MI DÍA</button>
+    </nav>
+  </section>
+
+  <!-- ============ PANTALLA: GASTOS ============ -->
+  <section id="pantalla-gastos" class="pantalla">
+    <header class="encabezado">
+      <div class="encabezado-titulo">
+        <span class="logo">💸</span>
+        <div>
+          <h1>Gastos</h1>
+          <p class="fecha">¿Qué pagó o compró?</p>
+        </div>
+      </div>
+    </header>
+
+    <div class="grid-familias grid-gastos" id="grid-gastos"></div>
+
+    <nav class="barra-nav">
+      <button class="nav-btn" data-ir="ventas"><span>🛍️</span>VENDER</button>
+      <button class="nav-btn nav-activo" data-ir="gastos"><span>💸</span>GASTOS</button>
+      <button class="nav-btn" data-ir="midia"><span>⭐</span>MI DÍA</button>
+    </nav>
+  </section>
+
+  <!-- ============ PANTALLA: ELEGIR FAMILIA PARA MERCANCÍA ============ -->
+  <section id="pantalla-familia-gasto" class="pantalla">
+    <header class="encabezado">
+      <div class="encabezado-titulo">
+        <span class="logo">📦</span>
+        <div>
+          <h1>Mercancía</h1>
+          <p class="fecha">¿De qué familia es la mercancía?</p>
+        </div>
+      </div>
+    </header>
+    <div id="grid-familia-gasto" class="grid-familias"></div>
+    <button class="btn-grande btn-cancelar" data-ir="gastos">⬅ Volver</button>
+  </section>
+
+  <!-- ============ PANTALLA: TECLADO ============ -->
+  <section id="pantalla-teclado" class="pantalla">
+    <div class="teclado-contexto" id="teclado-contexto"></div>
+    <div class="teclado-valor">
+      <p id="teclado-monto">$ 0</p>
+      <p id="teclado-letras" class="teclado-letras">&nbsp;</p>
+    </div>
+    <div class="teclado-grid">
+      <button class="tecla" data-tecla="1">1</button>
+      <button class="tecla" data-tecla="2">2</button>
+      <button class="tecla" data-tecla="3">3</button>
+      <button class="tecla" data-tecla="4">4</button>
+      <button class="tecla" data-tecla="5">5</button>
+      <button class="tecla" data-tecla="6">6</button>
+      <button class="tecla" data-tecla="7">7</button>
+      <button class="tecla" data-tecla="8">8</button>
+      <button class="tecla" data-tecla="9">9</button>
+      <button class="tecla tecla-miles" data-tecla="000">.000</button>
+      <button class="tecla" data-tecla="0">0</button>
+      <button class="tecla tecla-borrar" data-tecla="borrar">⌫</button>
+    </div>
+    <div class="teclado-acciones">
+      <button id="btn-teclado-cancelar" class="btn-grande btn-cancelar">✖ Cancelar</button>
+      <button id="btn-teclado-guardar" class="btn-grande btn-guardar" disabled>✔ GUARDAR</button>
+    </div>
+  </section>
+
+  <!-- ============ PANTALLA: MI DÍA ============ -->
+  <section id="pantalla-midia" class="pantalla">
+    <header class="encabezado">
+      <div class="encabezado-titulo">
+        <span class="logo">⭐</span>
+        <div>
+          <h1>Mi día</h1>
+          <p id="midia-fecha" class="fecha"></p>
+        </div>
+      </div>
+    </header>
+
+    <div id="midia-contenido" class="midia-contenido"></div>
+
+    <nav class="barra-nav">
+      <button class="nav-btn" data-ir="ventas"><span>🛍️</span>VENDER</button>
+      <button class="nav-btn" data-ir="gastos"><span>💸</span>GASTOS</button>
+      <button class="nav-btn nav-activo" data-ir="midia"><span>⭐</span>MI DÍA</button>
+    </nav>
+  </section>
+
+  <!-- ============ PANTALLA: CLAVE ============ -->
+  <section id="pantalla-clave" class="pantalla">
+    <header class="encabezado">
+      <div class="encabezado-titulo">
+        <span class="logo">🔒</span>
+        <div>
+          <h1>Administración</h1>
+          <p class="fecha">Escriba la clave</p>
+        </div>
+      </div>
+    </header>
+    <div class="clave-puntos" id="clave-puntos">
+      <span class="punto"></span><span class="punto"></span><span class="punto"></span><span class="punto"></span>
+    </div>
+    <p id="clave-error" class="clave-error">&nbsp;</p>
+    <div class="teclado-grid teclado-clave">
+      <button class="tecla" data-clave="1">1</button>
+      <button class="tecla" data-clave="2">2</button>
+      <button class="tecla" data-clave="3">3</button>
+      <button class="tecla" data-clave="4">4</button>
+      <button class="tecla" data-clave="5">5</button>
+      <button class="tecla" data-clave="6">6</button>
+      <button class="tecla" data-clave="7">7</button>
+      <button class="tecla" data-clave="8">8</button>
+      <button class="tecla" data-clave="9">9</button>
+      <button class="tecla tecla-borrar" data-clave="cancelar">✖</button>
+      <button class="tecla" data-clave="0">0</button>
+      <button class="tecla tecla-borrar" data-clave="borrar">⌫</button>
+    </div>
+  </section>
+
+  <!-- ============ PANTALLA: ADMINISTRACIÓN ============ -->
+  <section id="pantalla-admin" class="pantalla">
+    <header class="encabezado encabezado-admin">
+      <button id="btn-admin-salir" class="btn-volver">⬅ Salir</button>
+      <h1>Administración</h1>
+    </header>
+    <div class="admin-tabs">
+      <button class="tab tab-activo" data-tab="reportes">📊 Reportes</button>
+      <button class="tab" data-tab="familias">🏷️ Familias</button>
+      <button class="tab" data-tab="movimientos">📋 Registros</button>
+      <button class="tab" data-tab="respaldo">💾 Respaldo</button>
+      <button class="tab" data-tab="ajustes">⚙️ Ajustes</button>
+    </div>
+    <div id="admin-contenido" class="admin-contenido"></div>
+  </section>
+
+  <!-- ============ CONFIRMACIÓN ============ -->
+  <div id="overlay-confirmacion" class="overlay-confirmacion oculto">
+    <div class="confirmacion-caja">
+      <div class="confirmacion-check">✔</div>
+      <h2 id="confirmacion-titulo">¡Venta guardada!</h2>
+      <p id="confirmacion-detalle"></p>
+      <p id="confirmacion-monto"></p>
+      <p id="confirmacion-letras"></p>
+    </div>
+  </div>
+
+  <!-- ============ MODAL GENÉRICO ============ -->
+  <div id="modal" class="modal-fondo oculto">
+    <div class="modal-caja" id="modal-caja"></div>
+  </div>
+
+  <input type="file" id="input-restaurar" accept=".json,application/json" class="oculto">
+
+  <script src="js/app.js"></script>
+</body>
+</html>
