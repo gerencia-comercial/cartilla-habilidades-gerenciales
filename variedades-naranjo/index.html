@@ -34,15 +34,72 @@
       <button id="btn-deshacer" class="btn-deshacer"><span data-svg="deshacer"></span> Me equivoqué</button>
     </div>
 
-    <p class="instruccion">Toque lo que vendió</p>
+    <button id="btn-voz" class="btn-voz">
+      <span class="voz-circulo" data-svg="microfono"></span>
+      <span class="voz-titulo">VENTA POR VOZ</span>
+      <span class="voz-sub">Toque y diga: “aretes catorce mil”</span>
+    </button>
 
-    <div id="grid-familias" class="grid-familias"></div>
+    <button id="btn-escribir" class="btn-grande btn-escribir"><span data-svg="lapiz"></span> ESCRIBIR LA VENTA</button>
+
+    <p class="instruccion" id="titulo-rapidos">Lo que más vende</p>
+    <div id="grid-rapidos" class="grid-familias grid-rapidos"></div>
 
     <nav class="barra-nav">
       <button class="nav-btn nav-activo" data-ir="ventas"><span class="nav-ico" data-svg="etiqueta"></span>VENDER</button>
       <button class="nav-btn" data-ir="gastos"><span class="nav-ico" data-svg="billetera"></span>GASTOS</button>
+      <button class="nav-btn" data-ir="caja"><span class="nav-ico" data-svg="cofre"></span>CAJA</button>
       <button class="nav-btn" data-ir="midia"><span class="nav-ico" data-svg="sol"></span>MI DÍA</button>
     </nav>
+  </section>
+
+  <!-- ============ PANTALLA: VENTA POR VOZ / ESCRITA ============ -->
+  <section id="pantalla-voz" class="pantalla">
+    <header class="encabezado">
+      <div class="encabezado-titulo">
+        <span class="logo-icono" data-svg="microfono"></span>
+        <div>
+          <h1>Registrar venta</h1>
+          <p class="fecha" id="voz-estado">Diga el producto y el valor</p>
+        </div>
+      </div>
+    </header>
+
+    <div id="voz-escucha" class="voz-escucha oculto">
+      <div class="voz-onda" data-svg="microfono"></div>
+      <p class="voz-grande">Escuchando…</p>
+      <p class="voz-ejemplo">“aretes catorce mil”</p>
+    </div>
+
+    <div id="voz-manual" class="voz-manual">
+      <p class="voz-ayuda">Escriba o toque el micrófono <b>🎙 del teclado</b> y diga el producto y el valor:</p>
+      <input id="voz-texto" class="voz-input" type="text" autocomplete="off"
+        placeholder="aretes 14.000" enterkeyhint="done">
+      <button id="btn-voz-ok" class="btn-grande btn-guardar"><span data-svg="check"></span> LISTO</button>
+    </div>
+
+    <p id="voz-error" class="clave-error">&nbsp;</p>
+    <button class="btn-grande btn-cancelar btn-volver-grande" data-ir="ventas"><span data-svg="atras"></span> Volver</button>
+  </section>
+
+  <!-- ============ PANTALLA: CONFIRMAR VENTA ============ -->
+  <section id="pantalla-confirmar" class="pantalla">
+    <div class="confirmar-caja">
+      <p class="confirmar-pregunta">¿Es correcta esta venta?</p>
+      <div id="confirmar-insignia" class="confirmar-insignia"></div>
+      <p id="confirmar-producto" class="confirmar-producto"></p>
+      <p id="confirmar-categoria" class="confirmar-categoria"></p>
+      <p id="confirmar-monto" class="confirmar-monto"></p>
+      <p id="confirmar-letras" class="confirmar-letras"></p>
+    </div>
+    <div class="confirmar-acciones">
+      <button id="btn-confirmar-si" class="btn-grande btn-guardar"><span data-svg="check"></span> SÍ, GUARDAR</button>
+      <div class="confirmar-fila">
+        <button id="btn-confirmar-repetir" class="btn-grande btn-cancelar"><span data-svg="microfono"></span> Repetir</button>
+        <button id="btn-confirmar-corregir" class="btn-grande btn-cancelar"><span data-svg="lapiz"></span> Corregir valor</button>
+      </div>
+      <button class="btn-grande btn-cancelar" data-ir="ventas"><span data-svg="cerrar"></span> Cancelar</button>
+    </div>
   </section>
 
   <!-- ============ PANTALLA: GASTOS ============ -->
@@ -62,18 +119,19 @@
     <nav class="barra-nav">
       <button class="nav-btn" data-ir="ventas"><span class="nav-ico" data-svg="etiqueta"></span>VENDER</button>
       <button class="nav-btn nav-activo" data-ir="gastos"><span class="nav-ico" data-svg="billetera"></span>GASTOS</button>
+      <button class="nav-btn" data-ir="caja"><span class="nav-ico" data-svg="cofre"></span>CAJA</button>
       <button class="nav-btn" data-ir="midia"><span class="nav-ico" data-svg="sol"></span>MI DÍA</button>
     </nav>
   </section>
 
-  <!-- ============ PANTALLA: ELEGIR FAMILIA PARA MERCANCÍA ============ -->
+  <!-- ============ PANTALLA: CATEGORÍA PARA MERCANCÍA ============ -->
   <section id="pantalla-familia-gasto" class="pantalla">
     <header class="encabezado">
       <div class="encabezado-titulo">
         <span class="logo-icono" data-svg="caja"></span>
         <div>
           <h1>Mercancía</h1>
-          <p class="fecha">¿De qué familia es la mercancía?</p>
+          <p class="fecha">¿De qué categoría es la compra?</p>
         </div>
       </div>
     </header>
@@ -108,6 +166,28 @@
     </div>
   </section>
 
+  <!-- ============ PANTALLA: CAJA ============ -->
+  <section id="pantalla-caja" class="pantalla">
+    <header class="encabezado">
+      <div class="encabezado-titulo">
+        <span class="logo-icono" data-svg="cofre"></span>
+        <div>
+          <h1>Caja</h1>
+          <p id="caja-fecha" class="fecha"></p>
+        </div>
+      </div>
+    </header>
+
+    <div id="caja-contenido" class="midia-contenido"></div>
+
+    <nav class="barra-nav">
+      <button class="nav-btn" data-ir="ventas"><span class="nav-ico" data-svg="etiqueta"></span>VENDER</button>
+      <button class="nav-btn" data-ir="gastos"><span class="nav-ico" data-svg="billetera"></span>GASTOS</button>
+      <button class="nav-btn nav-activo" data-ir="caja"><span class="nav-ico" data-svg="cofre"></span>CAJA</button>
+      <button class="nav-btn" data-ir="midia"><span class="nav-ico" data-svg="sol"></span>MI DÍA</button>
+    </nav>
+  </section>
+
   <!-- ============ PANTALLA: MI DÍA ============ -->
   <section id="pantalla-midia" class="pantalla">
     <header class="encabezado">
@@ -125,6 +205,7 @@
     <nav class="barra-nav">
       <button class="nav-btn" data-ir="ventas"><span class="nav-ico" data-svg="etiqueta"></span>VENDER</button>
       <button class="nav-btn" data-ir="gastos"><span class="nav-ico" data-svg="billetera"></span>GASTOS</button>
+      <button class="nav-btn" data-ir="caja"><span class="nav-ico" data-svg="cofre"></span>CAJA</button>
       <button class="nav-btn nav-activo" data-ir="midia"><span class="nav-ico" data-svg="sol"></span>MI DÍA</button>
     </nav>
   </section>
@@ -168,7 +249,9 @@
     </header>
     <div class="admin-tabs">
       <button class="tab tab-activo" data-tab="reportes"><span data-svg="grafica"></span>Reportes</button>
-      <button class="tab" data-tab="familias"><span data-svg="etiqueta"></span>Familias</button>
+      <button class="tab" data-tab="productos"><span data-svg="etiqueta"></span>Productos</button>
+      <button class="tab" data-tab="familias"><span data-svg="caja"></span>Categorías</button>
+      <button class="tab" data-tab="cierres"><span data-svg="cofre"></span>Caja</button>
       <button class="tab" data-tab="movimientos"><span data-svg="documento"></span>Registros</button>
       <button class="tab" data-tab="respaldo"><span data-svg="subir"></span>Respaldo</button>
       <button class="tab" data-tab="ajustes"><span data-svg="ajustes"></span>Ajustes</button>

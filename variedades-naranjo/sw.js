@@ -1,7 +1,7 @@
 /* Service worker: guarda la aplicación en la tablet para que
    funcione siempre, con o sin internet. */
 
-var CACHE = 'variedades-naranjo-v3';
+var CACHE = 'variedades-naranjo-v4';
 
 var ARCHIVOS = [
   './',
