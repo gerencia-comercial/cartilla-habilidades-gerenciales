@@ -204,7 +204,7 @@ function setRoute(r){selRoute=r;$('fr').value=r;renderRoutes();renderMap();rende
 function q(a,p){const s=[...a].sort((x,y)=>x-y);return s[Math.floor((s.length-1)*p)]}
 let LM=null,LG=null,useCanvas=typeof L==='undefined';
 function clients(){const byC={};D.rows.filter(r=>r.gps).forEach(r=>{const x=byC[r.cli]||(byC[r.cli]={...r,cajas:0,kg:0,cu:0,n:0,peds:[]});x.cajas+=r.cajas;x.kg+=r.kg;x.cu+=r.cu;x.n++;x.peds.push(r.ped)});return Object.values(byC)}
-function coreBounds(cl){const la=cl.map(c=>c.lat),lo=cl.map(c=>c.lon);return[[q(la,.05),q(lo,.05)],[q(la,.95),q(lo,.95)]]}
+function coreBounds(cl,p=.05){const la=cl.map(c=>c.lat),lo=cl.map(c=>c.lon);return[[q(la,p),q(lo,p)],[q(la,1-p),q(lo,1-p)]]}
 function fallback(){if(useCanvas)return;useCanvas=true;$('lmap').hidden=true;$('map').hidden=false;$('mapnote').hidden=false;$('fit').hidden=true;renderMap()}
 function renderMap(){
   if(!useCanvas)return renderLeaflet();
@@ -212,9 +212,17 @@ function renderMap(){
 }
 function renderLeaflet(){
   if(!LM){LM=L.map('lmap',{preferCanvas:true});
-    let errs=0;const tl=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap'}).addTo(LM);
-    tl.on('tileerror',()=>{if(++errs>=3)fallback()});
-    $('fit').onclick=()=>{const cl=clients();if(cl.length)LM.fitBounds(coreBounds(cl),{padding:[20,20]})};}
+    // OpenStreetMap bloquea archivos abiertos desde el equipo; se usan CARTO y Esri, que no lo hacen
+    const osm='© OpenStreetMap';
+    const capas={
+      'Calles':L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png',{maxZoom:19,subdomains:'abcd',attribution:osm+' · © CARTO'}),
+      'Calles (Esri)':L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',{maxZoom:19,attribution:'© Esri'}),
+      'Satélite':L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{maxZoom:19,attribution:'© Esri'})};
+    const orden=['Calles','Calles (Esri)'];let i=0;
+    Object.values(capas).forEach(l=>{let e=0;l.on('tileload',()=>e=-99);l.on('tileerror',()=>{if(++e!==3||!LM.hasLayer(l))return;
+      LM.removeLayer(l);if(++i<orden.length)capas[orden[i]].addTo(LM);else fallback()})});
+    capas['Calles'].addTo(LM);L.control.layers(capas,null,{collapsed:false,position:'topright'}).addTo(LM);
+    $('fit').onclick=()=>{const cl=clients();if(cl.length)LM.fitBounds(coreBounds(cl,.01),{padding:[20,20]})};}
   if(LG)LG.remove();LG=L.layerGroup().addTo(LM);
   const cl=clients();if(!cl.length)return;
   const maxC=Math.max(...cl.map(c=>c.cajas));
@@ -223,7 +231,7 @@ function renderLeaflet(){
     L.circleMarker([c.lat,c.lon],{radius:5+9*Math.sqrt(c.cajas/maxC),color:'#fff',weight:1,fillColor:color[c.ruta],fillOpacity:dim?.12:.9,opacity:dim?.2:1})
      .bindPopup(`<b>${c.cli}</b><br>Ruta ${c.ruta}<br>${f2.format(c.cajas)} cajas · ${f1.format(c.kg)} kg<br>${c.n} pedido(s): ${c.peds.join(', ')}<br><a href="https://www.google.com/maps?q=${c.lat},${c.lon}" target="_blank" rel="noopener">Abrir en Google Maps</a>`).addTo(LG)});
   const sel=selRoute?cl.filter(c=>c.ruta===selRoute):cl;
-  if(sel.length)LM.fitBounds(coreBounds(sel),{padding:[25,25],maxZoom:16});
+  if(sel.length)LM.fitBounds(coreBounds(sel,selRoute?.05:.1),{padding:[25,25],maxZoom:16});
   setTimeout(()=>LM.invalidateSize(),50);
 }
 let pts=[];
