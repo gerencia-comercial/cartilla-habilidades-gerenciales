@@ -1,0 +1,261 @@
+<title>Visor Armado de Rutas</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Public+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: tablero de despacho — barra de carga, KPIs, tabla por ruta + plano de clientes, detalle filtrable */
+:root{
+  --bg:#f3f4f2; --panel:#ffffff; --ink:#1b2120; --muted:#5d6763; --line:#dde1de;
+  --accent:#b3261e; --accent-soft:#f6e3e1;
+  --ok:#2e7d4f; --warn:#b26a00; --bad:#b3261e;
+  --display:"Archivo",system-ui,sans-serif; --body:"Public Sans",system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#141817; --panel:#1c2120; --ink:#e7ebe9; --muted:#9aa5a0; --line:#2d3432;
+  --accent:#ef6b61; --accent-soft:#3a2220; --ok:#5cc28a; --warn:#e5a445; --bad:#ef6b61; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141817; --panel:#1c2120; --ink:#e7ebe9; --muted:#9aa5a0; --line:#2d3432;
+  --accent:#ef6b61; --accent-soft:#3a2220; --ok:#5cc28a; --warn:#e5a445; --bad:#ef6b61; color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font:14px/1.5 var(--body);margin:0;padding:16px;padding-block:20px 48px}
+.wrap{max-width:1200px;margin:0 auto;display:grid;gap:18px}
+h1,h2{font-family:var(--display);margin:0;text-wrap:balance}
+h1{font-size:1.7rem;font-weight:800;letter-spacing:-.01em}
+h2{font-size:1.05rem;font-weight:700}
+.eyebrow{font:600 .72rem var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+header{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:end;justify-content:space-between}
+.meta{color:var(--muted);font-size:.9rem}
+.actions{display:flex;flex-wrap:wrap;gap:8px}
+button,.btn{font:600 .85rem var(--body);border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:8px;padding:8px 12px;cursor:pointer}
+button:hover,.btn:hover{border-color:var(--accent)}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn.primary{background:var(--accent);color:var(--panel);border-color:var(--accent)}
+input[type=file]{display:none}
+.drop{border:1.5px dashed var(--line);border-radius:10px;padding:14px;text-align:center;color:var(--muted)}
+.drop.over{border-color:var(--accent);background:var(--accent-soft)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.kpi{background:var(--panel);padding:12px 14px}
+.kpi b{display:block;font:700 1.45rem var(--mono);font-variant-numeric:tabular-nums}
+.kpi span{font-size:.78rem;color:var(--muted)}
+.kpi.alert b{color:var(--bad)}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;min-width:0;display:grid;gap:10px;align-content:start}
+.row2{display:grid;grid-template-columns:1.25fr 1fr;gap:18px}
+@media (max-width:900px){.row2{grid-template-columns:1fr}}
+.tscroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.86rem}
+th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+th{font:600 .72rem var(--body);letter-spacing:.05em;text-transform:uppercase;color:var(--muted);cursor:pointer;user-select:none}
+th:first-child,td:first-child{text-align:left}
+td{font-family:var(--mono);font-variant-numeric:tabular-nums}
+tbody tr{cursor:pointer}
+tbody tr:hover{background:var(--accent-soft)}
+tr.sel{background:var(--accent-soft)}
+tfoot td{font-weight:600;border-top:2px solid var(--ink);border-bottom:0}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+.bar{position:relative;height:6px;background:var(--line);border-radius:3px;min-width:60px}
+.bar i{position:absolute;inset:0 auto 0 0;border-radius:3px;background:var(--accent)}
+.chip{display:inline-block;font:600 .7rem var(--body);padding:2px 7px;border-radius:99px;border:1px solid currentColor}
+.chip.ok{color:var(--ok)} .chip.warn{color:var(--warn)} .chip.bad{color:var(--bad)}
+canvas{width:100%;aspect-ratio:1/1;max-width:100%;display:block;background:var(--bg);border-radius:8px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:.8rem}
+.legend span{cursor:pointer}
+.tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.tools input,.tools select{font:inherit;padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink)}
+.tools input[type=search]{flex:1 1 200px;min-width:0}
+.tools label{font-size:.82rem;color:var(--muted);display:flex;gap:6px;align-items:center}
+#cap{width:90px}
+a{color:var(--accent)}
+.note{font-size:.8rem;color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 14px;border-radius:8px;font-size:.85rem}
+#empty{text-align:center;padding:40px 16px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div>
+      <div class="eyebrow">Armado de rutas · distribución</div>
+      <h1 id="ttl">Visor Armado de Rutas</h1>
+      <div class="meta" id="meta">Sin archivo cargado</div>
+    </div>
+    <div class="actions">
+      <label class="btn primary" for="file">Cargar archivo ARM (.TXT)</label>
+      <input type="file" id="file" accept=".txt,.TXT,.csv,text/plain">
+      <button id="copy" type="button">Copiar resumen para WhatsApp</button>
+    </div>
+  </header>
+
+  <div class="drop" id="drop">Arrastra aquí el archivo ARM_*.TXT que envía el cliente. Se procesa en tu navegador, no se sube a ningún servidor.</div>
+
+  <section id="empty" class="panel" hidden>
+    <h2>Carga el archivo de armado del día</h2>
+    <p class="note">Usa el botón “Cargar archivo ARM” o arrastra el .TXT. Verás cajas, peso y clientes por ruta, y un plano de los puntos de entrega.</p>
+  </section>
+
+  <div id="main" class="wrap" hidden>
+    <section class="kpis" id="kpis"></section>
+
+    <div class="row2">
+      <section class="panel">
+        <div class="tools" style="justify-content:space-between">
+          <h2>Carga por ruta</h2>
+          <label for="cap">Capacidad vehículo (kg) <input id="cap" type="number" min="0" step="100" placeholder="ej. 3500"></label>
+        </div>
+        <div class="tscroll"><table id="trutas"></table></div>
+        <p class="note">Toca una ruta para filtrar el plano y el detalle. Con la capacidad del vehículo se calcula % de ocupación: <span class="chip ok">≤ 90%</span> <span class="chip warn">90–100%</span> <span class="chip bad">&gt; 100%</span></p>
+      </section>
+      <section class="panel">
+        <h2>Plano de clientes</h2>
+        <canvas id="map" width="800" height="800" aria-label="Plano de dispersión de clientes por coordenadas"></canvas>
+        <div class="legend" id="legend"></div>
+        <p class="note">Cada punto es un cliente en su coordenada GPS; el tamaño indica las cajas. Norte arriba. Puntos huecos en el borde: coordenadas fuera de la zona principal (revisar).</p>
+      </section>
+    </div>
+
+    <section class="panel">
+      <div class="tools">
+        <h2 style="margin-right:auto">Detalle por cliente</h2>
+        <select id="fr" aria-label="Filtrar ruta"></select>
+        <input id="q" type="search" placeholder="Buscar código de cliente o pedido">
+        <label><input type="checkbox" id="nogps"> Solo sin GPS</label>
+      </div>
+      <div class="tscroll"><table id="tcli"></table></div>
+      <p class="note" id="clinote"></p>
+    </section>
+
+    <section class="panel">
+      <h2>Cómo se lee el archivo</h2>
+      <p class="note">Cada línea es un pedido con ancho fijo: <span class="num">CFAJ</span> (centro/tipo) · código cliente (10 dígitos) · número de pedido (10 dígitos) · fecha de entrega · <b>cajas físicas</b> · <b>cajas unitarias (CU)</b> · <b>peso kg</b> · código de ruta (6) · longitud · latitud. Las columnas CU y kg son interpretación del formato; confírmalas con el analista del cliente.</p>
+    </section>
+  </div>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script id="seed" type="text/plain">/*DATA*/</script>
+<script>
+const COLORS=["#1f77b4","#d62728","#2ca02c","#9467bd","#ff7f0e","#17becf","#8c564b","#e377c2","#7f7f7f","#bcbd22","#393b79","#637939"];
+const RE=/^(\w{4})(\d{10})(\d{10})(\d{4}\.\d{2}\.\d{2})\s+(-?[\d.,]+)\s+(-?[\d.,]+)\s+(-?[\d.,]+)(\w{6})(-?\d+,\d{5})(-?\d+,\d{7})\s*$/;
+const n=s=>parseFloat(s.replace(/\./g,'').replace(',','.'));
+const nc=s=>parseFloat(s.replace(',','.'));
+const f0=new Intl.NumberFormat('es-CO',{maximumFractionDigits:0});
+const f1=new Intl.NumberFormat('es-CO',{maximumFractionDigits:1,minimumFractionDigits:1});
+const f2=new Intl.NumberFormat('es-CO',{maximumFractionDigits:2,minimumFractionDigits:2});
+let D={rows:[],bad:0,name:''},selRoute='',sort={k:'cajas',d:-1},csort={k:'cajas',d:-1},color={};
+const $=id=>document.getElementById(id);
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+
+function parse(txt,name){
+  const rows=[];let bad=0;
+  txt.split(/\r?\n/).forEach(l=>{if(!l.trim())return;const m=l.match(RE);if(!m){bad++;return}
+    const lon=nc(m[9]),lat=nc(m[10]);
+    rows.push({cen:m[1],cli:m[2],ped:m[3],fecha:m[4].replace(/\./g,'-'),cajas:n(m[5]),cu:n(m[6]),kg:n(m[7]),ruta:m[8],lon,lat,gps:!(lon===0&&lat===0)})});
+  D={rows,bad,name};selRoute='';
+  const rs=[...new Set(rows.map(r=>r.ruta))].sort();color={};rs.forEach((r,i)=>color[r]=COLORS[i%COLORS.length]);
+  render();
+}
+function routes(){
+  const m={};
+  D.rows.forEach(r=>{const x=m[r.ruta]||(m[r.ruta]={ruta:r.ruta,ped:0,cli:new Set(),cajas:0,cu:0,kg:0,nogps:0});
+    x.ped++;x.cli.add(r.cli);x.cajas+=r.cajas;x.cu+=r.cu;x.kg+=r.kg;if(!r.gps)x.nogps++});
+  return Object.values(m).map(x=>({...x,cli:x.cli.size}));
+}
+function tot(){const t={ped:D.rows.length,cli:new Set(D.rows.map(r=>r.cli)).size,cajas:0,cu:0,kg:0,nogps:0};
+  D.rows.forEach(r=>{t.cajas+=r.cajas;t.cu+=r.cu;t.kg+=r.kg;if(!r.gps)t.nogps++});return t}
+
+function render(){
+  const has=D.rows.length>0;$('main').hidden=!has;$('empty').hidden=has;
+  if(!has){$('meta').textContent=D.bad?`El archivo no tiene líneas con el formato esperado (${D.bad} líneas no reconocidas).`:'Sin archivo cargado';return}
+  const t=tot(),rs=routes(),fechas=[...new Set(D.rows.map(r=>r.fecha))];
+  $('meta').innerHTML=`${esc(D.name)} · entrega <b>${fechas.join(', ')}</b> · ${rs.length} rutas`+(D.bad?` · <span style="color:var(--bad)">${D.bad} líneas no leídas</span>`:'');
+  const k=[[f0.format(t.cajas),'Cajas físicas'],[f0.format(t.cu),'Cajas unitarias (CU)'],[f0.format(t.kg),'Peso total kg'],[t.cli,'Clientes'],[t.ped,'Pedidos'],[f0.format(t.cajas/rs.length),'Cajas promedio por ruta'],[t.nogps,'Pedidos sin GPS',t.nogps>0]];
+  $('kpis').innerHTML=k.map(([v,l,a])=>`<div class="kpi${a?' alert':''}"><b>${v}</b><span>${l}</span></div>`).join('');
+  $('fr').innerHTML='<option value="">Todas las rutas</option>'+rs.map(r=>r.ruta).sort().map(r=>`<option${r===selRoute?' selected':''}>${r}</option>`).join('');
+  renderRoutes();renderMap();renderClients();
+}
+function occ(kg){const c=+$('cap').value;if(!c)return'';const p=kg/c*100;const cls=p>100?'bad':p>90?'warn':'ok';return`<span class="chip ${cls}">${f0.format(p)}%</span>`}
+function renderRoutes(){
+  const rs=routes(),t=tot(),max=Math.max(...rs.map(r=>r.kg));
+  rs.sort((a,b)=>(a[sort.k]>b[sort.k]?1:a[sort.k]<b[sort.k]?-1:0)*sort.d);
+  const cap=+$('cap').value;
+  const cols=[['ruta','Ruta'],['cli','Clientes'],['ped','Pedidos'],['cajas','Cajas'],['cu','CU'],['kg','Kg'],['nogps','Sin GPS']];
+  $('trutas').innerHTML=`<thead><tr>${cols.map(([k,l])=>`<th data-k="${k}">${l}${sort.k===k?(sort.d>0?' ▲':' ▼'):''}</th>`).join('')}<th>Peso relativo</th>${cap?'<th>Ocupación</th>':''}</tr></thead><tbody>`+
+  rs.map(r=>`<tr data-r="${r.ruta}" class="${r.ruta===selRoute?'sel':''}"><td><span class="dot" style="background:${color[r.ruta]}"></span>${r.ruta}</td><td>${r.cli}</td><td>${r.ped}</td><td>${f1.format(r.cajas)}</td><td>${f1.format(r.cu)}</td><td>${f0.format(r.kg)}</td><td>${r.nogps?`<span class="chip bad">${r.nogps}</span>`:'0'}</td><td><div class="bar"><i style="width:${r.kg/max*100}%;background:${color[r.ruta]}"></i></div></td>${cap?`<td>${occ(r.kg)}</td>`:''}</tr>`).join('')+
+  `</tbody><tfoot><tr><td>Total</td><td>${t.cli}</td><td>${t.ped}</td><td>${f1.format(t.cajas)}</td><td>${f1.format(t.cu)}</td><td>${f0.format(t.kg)}</td><td>${t.nogps}</td><td></td>${cap?'<td></td>':''}</tr></tfoot>`;
+  $('trutas').querySelectorAll('th[data-k]').forEach(th=>th.onclick=()=>{const k=th.dataset.k;sort={k,d:sort.k===k?-sort.d:(k==='ruta'?1:-1)};renderRoutes()});
+  $('trutas').querySelectorAll('tbody tr').forEach(tr=>tr.onclick=()=>setRoute(tr.dataset.r===selRoute?'':tr.dataset.r));
+  $('legend').innerHTML=rs.map(r=>r.ruta).sort().map(r=>`<span data-r="${r}" style="opacity:${!selRoute||selRoute===r?1:.35}"><span class="dot" style="background:${color[r]}"></span>${r}</span>`).join('');
+  $('legend').querySelectorAll('[data-r]').forEach(s=>s.onclick=()=>setRoute(s.dataset.r===selRoute?'':s.dataset.r));
+}
+function setRoute(r){selRoute=r;$('fr').value=r;renderRoutes();renderMap();renderClients()}
+function q(a,p){const s=[...a].sort((x,y)=>x-y);return s[Math.floor((s.length-1)*p)]}
+let pts=[];
+function renderMap(){
+  const cv=$('map'),ctx=cv.getContext('2d'),W=cv.width,H=cv.height,cs=getComputedStyle(document.documentElement);
+  ctx.clearRect(0,0,W,H);
+  // agrupar por cliente
+  const byC={};D.rows.filter(r=>r.gps).forEach(r=>{const x=byC[r.cli]||(byC[r.cli]={...r,cajas:0,kg:0,n:0});x.cajas+=r.cajas;x.kg+=r.kg;x.n++});
+  const cl=Object.values(byC);if(!cl.length)return;
+  const lons=cl.map(c=>c.lon),lats=cl.map(c=>c.lat);
+  let x0=q(lons,.02),x1=q(lons,.98),y0=q(lats,.02),y1=q(lats,.98);
+  const px=(x1-x0)*.15||.01,py=(y1-y0)*.15||.01;x0-=px;x1+=px;y0-=py;y1+=py;
+  // misma escala en ambos ejes (aprox. a esta latitud)
+  const k=Math.cos((y0+y1)/2*Math.PI/180),sx=(x1-x0)*k,sy=y1-y0,s=Math.max(sx,sy),m=30;
+  const cx=(x0+x1)/2,cy=(y0+y1)/2,sc=(W-2*m)/s;
+  const X=lon=>W/2+(lon-cx)*k*sc,Y=lat=>H/2-(lat-cy)*sc;
+  ctx.strokeStyle=cs.getPropertyValue('--line');ctx.lineWidth=1;
+  for(let i=1;i<8;i++){ctx.beginPath();ctx.moveTo(i*W/8,0);ctx.lineTo(i*W/8,H);ctx.moveTo(0,i*H/8);ctx.lineTo(W,i*H/8);ctx.stroke()}
+  // escala 1 km
+  const km=sc/111.32;ctx.fillStyle=cs.getPropertyValue('--muted');ctx.font='20px system-ui';
+  ctx.fillRect(m,H-m,km,3);ctx.fillText('1 km',m,H-m-8);
+  const maxC=Math.max(...cl.map(c=>c.cajas));pts=[];
+  cl.sort((a,b)=>(a.ruta===selRoute)-(b.ruta===selRoute));
+  cl.forEach(c=>{let x=X(c.lon),y=Y(c.lat);const out=x<4||x>W-4||y<4||y>H-4;x=Math.min(W-8,Math.max(8,x));y=Math.min(H-8,Math.max(8,y));
+    const r=4+10*Math.sqrt(c.cajas/maxC),dim=selRoute&&c.ruta!==selRoute;
+    ctx.globalAlpha=dim?.12:.85;ctx.beginPath();ctx.arc(x,y,r,0,7);
+    if(out){ctx.strokeStyle=color[c.ruta];ctx.lineWidth=3;ctx.stroke()}else{ctx.fillStyle=color[c.ruta];ctx.fill()}
+    ctx.globalAlpha=1;pts.push({x,y,r,c})});
+  ctx.fillStyle=cs.getPropertyValue('--muted');ctx.fillText('N ↑',W-m-30,m+10);
+}
+$('map').onclick=e=>{const b=e.target.getBoundingClientRect(),x=(e.clientX-b.left)*800/b.width,y=(e.clientY-b.top)*800/b.height;
+  let best=null,bd=1e9;pts.forEach(p=>{const d=Math.hypot(p.x-x,p.y-y);if(d<bd&&d<p.r+8){bd=d;best=p}});
+  if(best){$('q').value=best.c.cli;setRoute(best.c.ruta)}};
+function renderClients(){
+  const term=$('q').value.trim(),ng=$('nogps').checked;
+  let rows=D.rows.filter(r=>(!selRoute||r.ruta===selRoute)&&(!ng||!r.gps)&&(!term||r.cli.includes(term)||r.ped.includes(term)));
+  rows.sort((a,b)=>(a[csort.k]>b[csort.k]?1:a[csort.k]<b[csort.k]?-1:0)*csort.d);
+  const cols=[['ruta','Ruta'],['cli','Cliente'],['ped','Pedido'],['cajas','Cajas'],['cu','CU'],['kg','Kg']];
+  const sum=rows.reduce((a,r)=>(a.c+=r.cajas,a.u+=r.cu,a.k+=r.kg,a),{c:0,u:0,k:0});
+  $('tcli').innerHTML=`<thead><tr>${cols.map(([k,l])=>`<th data-k="${k}">${l}${csort.k===k?(csort.d>0?' ▲':' ▼'):''}</th>`).join('')}<th>Ubicación</th></tr></thead><tbody>`+
+    rows.slice(0,400).map(r=>`<tr><td><span class="dot" style="background:${color[r.ruta]}"></span>${r.ruta}</td><td>${r.cli}</td><td>${r.ped}</td><td>${f2.format(r.cajas)}</td><td>${f2.format(r.cu)}</td><td>${f1.format(r.kg)}</td><td>${r.gps?`<a href="https://www.google.com/maps?q=${r.lat},${r.lon}" target="_blank" rel="noopener">Ver mapa</a>`:'<span class="chip bad">Sin GPS</span>'}</td></tr>`).join('')+
+    `</tbody><tfoot><tr><td>${rows.length} pedidos</td><td>${new Set(rows.map(r=>r.cli)).size} clientes</td><td></td><td>${f1.format(sum.c)}</td><td>${f1.format(sum.u)}</td><td>${f0.format(sum.k)}</td><td></td></tr></tfoot>`;
+  $('tcli').querySelectorAll('th[data-k]').forEach(th=>th.onclick=()=>{const k=th.dataset.k;csort={k,d:csort.k===k?-csort.d:(['ruta','cli','ped'].includes(k)?1:-1)};renderClients()});
+  $('clinote').textContent=rows.length>400?`Mostrando 400 de ${rows.length}. Filtra por ruta o busca un cliente para ver el resto.`:'';
+}
+function resumen(){
+  const t=tot(),rs=routes().sort((a,b)=>a.ruta.localeCompare(b.ruta)),cap=+$('cap').value;
+  const f=[...new Set(D.rows.map(r=>r.fecha))].join(', ');
+  let s=`*ARMADO DE RUTAS – Entrega ${f}*\n\n`;
+  rs.forEach(r=>{s+=`• ${r.ruta}: ${f0.format(r.cajas)} cajas · ${f0.format(r.kg)} kg · ${r.cli} clientes`+(cap?` · ${f0.format(r.kg/cap*100)}% cap.`:'')+(r.nogps?` · ⚠ ${r.nogps} sin GPS`:'')+`\n`});
+  s+=`\n*TOTAL:* ${f0.format(t.cajas)} cajas · ${f0.format(t.cu)} CU · ${f0.format(t.kg)} kg · ${t.cli} clientes · ${t.ped} pedidos`;
+  if(t.nogps)s+=`\n⚠ ${t.nogps} pedidos sin coordenadas: confirmar dirección antes de salir.`;
+  return s;
+}
+function toast(m){const el=$('toast');el.textContent=m;el.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>el.hidden=true,2200)}
+$('copy').onclick=()=>{if(!D.rows.length)return toast('Primero carga un archivo');const s=resumen();
+  (navigator.clipboard?navigator.clipboard.writeText(s):Promise.reject()).then(()=>toast('Resumen copiado')).catch(()=>{const ta=document.createElement('textarea');ta.value=s;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');toast('Resumen copiado')}catch(e){toast('No se pudo copiar')}ta.remove()})};
+$('cap').oninput=()=>{try{localStorage.setItem('cap',$('cap').value)}catch(e){}renderRoutes()};
+$('fr').onchange=e=>setRoute(e.target.value);
+$('q').oninput=renderClients;$('nogps').onchange=renderClients;
+function readFile(file){const fr=new FileReader();fr.onload=()=>parse(fr.result,file.name);fr.readAsText(file,'latin1')}
+$('file').onchange=e=>{if(e.target.files[0])readFile(e.target.files[0])};
+const dz=$('drop');['dragenter','dragover'].forEach(ev=>document.addEventListener(ev,e=>{e.preventDefault();dz.classList.add('over')}));
+['dragleave','drop'].forEach(ev=>document.addEventListener(ev,e=>{e.preventDefault();dz.classList.remove('over')}));
+document.addEventListener('drop',e=>{const f=e.dataTransfer.files[0];if(f)readFile(f)});
+try{$('cap').value=localStorage.getItem('cap')||''}catch(e){}
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>D.rows.length&&renderMap());
+const seed=$('seed').textContent.trim();
+if(seed&&seed!=='/*DATA*/')parse(seed,'ARM_PASTO_29.TXT');else render();
+</script>
