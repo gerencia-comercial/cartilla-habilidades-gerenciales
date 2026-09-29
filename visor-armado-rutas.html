@@ -4,6 +4,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Public+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
 /* leaflet 1.9.4 */
 .leaflet-pane,.leaflet-tile,.leaflet-marker-icon,.leaflet-marker-shadow,.leaflet-tile-container,.leaflet-pane > svg,.leaflet-pane > canvas,.leaflet-zoom-box,.leaflet-image-layer,.leaflet-layer {position: absolute;left: 0;top: 0;}.leaflet-container {overflow: hidden;}.leaflet-tile,.leaflet-marker-icon,.leaflet-marker-shadow {-webkit-user-select: none;-moz-user-select: none;user-select: none;-webkit-user-drag: none;}.leaflet-tile::selection {background: transparent;}.leaflet-safari .leaflet-tile {image-rendering: -webkit-optimize-contrast;}.leaflet-safari .leaflet-tile-container {width: 1600px;height: 1600px;-webkit-transform-origin: 0 0;}.leaflet-marker-icon,.leaflet-marker-shadow {display: block;}.leaflet-container .leaflet-overlay-pane svg {max-width: none !important;max-height: none !important;}.leaflet-container .leaflet-marker-pane img,.leaflet-container .leaflet-shadow-pane img,.leaflet-container .leaflet-tile-pane img,.leaflet-container img.leaflet-image-layer,.leaflet-container .leaflet-tile {max-width: none !important;max-height: none !important;width: auto;padding: 0;}.leaflet-container img.leaflet-tile {mix-blend-mode: plus-lighter;}.leaflet-container.leaflet-touch-zoom {-ms-touch-action: pan-x pan-y;touch-action: pan-x pan-y;}.leaflet-container.leaflet-touch-drag {-ms-touch-action: pinch-zoom;touch-action: none;touch-action: pinch-zoom;}.leaflet-container.leaflet-touch-drag.leaflet-touch-zoom {-ms-touch-action: none;touch-action: none;}.leaflet-container {-webkit-tap-highlight-color: transparent;}.leaflet-container a {-webkit-tap-highlight-color: rgba(51, 181, 229, 0.4);}.leaflet-tile {filter: inherit;visibility: hidden;}.leaflet-tile-loaded {visibility: inherit;}.leaflet-zoom-box {width: 0;height: 0;-moz-box-sizing: border-box;box-sizing: border-box;z-index: 800;}.leaflet-overlay-pane svg {-moz-user-select: none;}.leaflet-pane         { z-index: 400; }.leaflet-tile-pane    { z-index: 200; }.leaflet-overlay-pane { z-index: 400; }.leaflet-shadow-pane  { z-index: 500; }.leaflet-marker-pane  { z-index: 600; }.leaflet-tooltip-pane   { z-index: 650; }.leaflet-popup-pane   { z-index: 700; }.leaflet-map-pane canvas { z-index: 100; }.leaflet-map-pane svg    { z-index: 200; }.leaflet-vml-shape {width: 1px;height: 1px;}.lvml {behavior: none;display: inline-block;position: absolute;}.leaflet-control {position: relative;z-index: 800;pointer-events: visiblePainted;pointer-events: auto;}.leaflet-top,.leaflet-bottom {position: absolute;z-index: 1000;pointer-events: none;}.leaflet-top {top: 0;}.leaflet-right {right: 0;}.leaflet-bottom {bottom: 0;}.leaflet-left {left: 0;}.leaflet-control {float: left;clear: both;}.leaflet-right .leaflet-control {float: right;}.leaflet-top .leaflet-control {margin-top: 10px;}.leaflet-bottom .leaflet-control {margin-bottom: 10px;}.leaflet-left .leaflet-control {margin-left: 10px;}.leaflet-right .leaflet-control {margin-right: 10px;}.leaflet-fade-anim .leaflet-popup {opacity: 0;-webkit-transition: opacity 0.2s linear;-moz-transition: opacity 0.2s linear;transition: opacity 0.2s linear;}.leaflet-fade-anim .leaflet-map-pane .leaflet-popup {opacity: 1;}.leaflet-zoom-animated {-webkit-transform-origin: 0 0;-ms-transform-origin: 0 0;transform-origin: 0 0;}svg.leaflet-zoom-animated {will-change: transform;}.leaflet-zoom-anim .leaflet-zoom-animated {-webkit-transition: -webkit-transform 0.25s cubic-bezier(0,0,0.25,1);-moz-transition:    -moz-transform 0.25s cubic-bezier(0,0,0.25,1);transition:         transform 0.25s cubic-bezier(0,0,0.25,1);}.leaflet-zoom-anim .leaflet-tile,.leaflet-pan-anim .leaflet-tile {-webkit-transition: none;-moz-transition: none;transition: none;}.leaflet-zoom-anim .leaflet-zoom-hide {visibility: hidden;}.leaflet-interactive {cursor: pointer;}.leaflet-grab {cursor: -webkit-grab;cursor:    -moz-grab;cursor:         grab;}.leaflet-crosshair,.leaflet-crosshair .leaflet-interactive {cursor: crosshair;}.leaflet-popup-pane,.leaflet-control {cursor: auto;}.leaflet-dragging .leaflet-grab,.leaflet-dragging .leaflet-grab .leaflet-interactive,.leaflet-dragging .leaflet-marker-draggable {cursor: move;cursor: -webkit-grabbing;cursor:    -moz-grabbing;cursor:         grabbing;}.leaflet-marker-icon,.leaflet-marker-shadow,.leaflet-image-layer,.leaflet-pane > svg path,.leaflet-tile-container {pointer-events: none;}.leaflet-marker-icon.leaflet-interactive,.leaflet-image-layer.leaflet-interactive,.leaflet-pane > svg path.leaflet-interactive,svg.leaflet-image-layer.leaflet-interactive path {pointer-events: visiblePainted;pointer-events: auto;}.leaflet-container {background: #ddd;outline-offset: 1px;}.leaflet-container a {color: #0078A8;}.leaflet-zoom-box {border: 2px dotted #38f;background: rgba(255,255,255,0.5);}.leaflet-container {font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;font-size: 12px;font-size: 0.75rem;line-height: 1.5;}.leaflet-bar {box-shadow: 0 1px 5px rgba(0,0,0,0.65);border-radius: 4px;}.leaflet-bar a {background-color: #fff;border-bottom: 1px solid #ccc;width: 26px;height: 26px;line-height: 26px;display: block;text-align: center;text-decoration: none;color: black;}.leaflet-bar a,.leaflet-control-layers-toggle {background-position: 50% 50%;background-repeat: no-repeat;display: block;}.leaflet-bar a:hover,.leaflet-bar a:focus {background-color: #f4f4f4;}.leaflet-bar a:first-child {border-top-left-radius: 4px;border-top-right-radius: 4px;}.leaflet-bar a:last-child {border-bottom-left-radius: 4px;border-bottom-right-radius: 4px;border-bottom: none;}.leaflet-bar a.leaflet-disabled {cursor: default;background-color: #f4f4f4;color: #bbb;}.leaflet-touch .leaflet-bar a {width: 30px;height: 30px;line-height: 30px;}.leaflet-touch .leaflet-bar a:first-child {border-top-left-radius: 2px;border-top-right-radius: 2px;}.leaflet-touch .leaflet-bar a:last-child {border-bottom-left-radius: 2px;border-bottom-right-radius: 2px;}.leaflet-control-zoom-in,.leaflet-control-zoom-out {font: bold 18px 'Lucida Console', Monaco, monospace;text-indent: 1px;}.leaflet-touch .leaflet-control-zoom-in, .leaflet-touch .leaflet-control-zoom-out  {font-size: 22px;}.leaflet-control-layers {box-shadow: 0 1px 5px rgba(0,0,0,0.4);background: #fff;border-radius: 5px;}.leaflet-control-layers-toggle {background-image: none;width: 36px;height: 36px;}.leaflet-retina .leaflet-control-layers-toggle {background-image: none;background-size: 26px 26px;}.leaflet-touch .leaflet-control-layers-toggle {width: 44px;height: 44px;}.leaflet-control-layers .leaflet-control-layers-list,.leaflet-control-layers-expanded .leaflet-control-layers-toggle {display: none;}.leaflet-control-layers-expanded .leaflet-control-layers-list {display: block;position: relative;}.leaflet-control-layers-expanded {padding: 6px 10px 6px 6px;color: #333;background: #fff;}.leaflet-control-layers-scrollbar {overflow-y: scroll;overflow-x: hidden;padding-right: 5px;}.leaflet-control-layers-selector {margin-top: 2px;position: relative;top: 1px;}.leaflet-control-layers label {display: block;font-size: 13px;font-size: 1.08333em;}.leaflet-control-layers-separator {height: 0;border-top: 1px solid #ddd;margin: 5px -10px 5px -6px;}.leaflet-default-icon-path {background-image: none;}.leaflet-container .leaflet-control-attribution {background: #fff;background: rgba(255, 255, 255, 0.8);margin: 0;}.leaflet-control-attribution,.leaflet-control-scale-line {padding: 0 5px;color: #333;line-height: 1.4;}.leaflet-control-attribution a {text-decoration: none;}.leaflet-control-attribution a:hover,.leaflet-control-attribution a:focus {text-decoration: underline;}.leaflet-attribution-flag {display: inline !important;vertical-align: baseline !important;width: 1em;height: 0.6669em;}.leaflet-left .leaflet-control-scale {margin-left: 5px;}.leaflet-bottom .leaflet-control-scale {margin-bottom: 5px;}.leaflet-control-scale-line {border: 2px solid #777;border-top: none;line-height: 1.1;padding: 2px 5px 1px;white-space: nowrap;-moz-box-sizing: border-box;box-sizing: border-box;background: rgba(255, 255, 255, 0.8);text-shadow: 1px 1px #fff;}.leaflet-control-scale-line:not(:first-child) {border-top: 2px solid #777;border-bottom: none;margin-top: -2px;}.leaflet-control-scale-line:not(:first-child):not(:last-child) {border-bottom: 2px solid #777;}.leaflet-touch .leaflet-control-attribution,.leaflet-touch .leaflet-control-layers,.leaflet-touch .leaflet-bar {box-shadow: none;}.leaflet-touch .leaflet-control-layers,.leaflet-touch .leaflet-bar {border: 2px solid rgba(0,0,0,0.2);background-clip: padding-box;}.leaflet-popup {position: absolute;text-align: center;margin-bottom: 20px;}.leaflet-popup-content-wrapper {padding: 1px;text-align: left;border-radius: 12px;}.leaflet-popup-content {margin: 13px 24px 13px 20px;line-height: 1.3;font-size: 13px;font-size: 1.08333em;min-height: 1px;}.leaflet-popup-content p {margin: 17px 0;margin: 1.3em 0;}.leaflet-popup-tip-container {width: 40px;height: 20px;position: absolute;left: 50%;margin-top: -1px;margin-left: -20px;overflow: hidden;pointer-events: none;}.leaflet-popup-tip {width: 17px;height: 17px;padding: 1px;margin: -10px auto 0;pointer-events: auto;-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);-ms-transform: rotate(45deg);transform: rotate(45deg);}.leaflet-popup-content-wrapper,.leaflet-popup-tip {background: white;color: #333;box-shadow: 0 3px 14px rgba(0,0,0,0.4);}.leaflet-container a.leaflet-popup-close-button {position: absolute;top: 0;right: 0;border: none;text-align: center;width: 24px;height: 24px;font: 16px/24px Tahoma, Verdana, sans-serif;color: #757575;text-decoration: none;background: transparent;}.leaflet-container a.leaflet-popup-close-button:hover,.leaflet-container a.leaflet-popup-close-button:focus {color: #585858;}.leaflet-popup-scrolled {overflow: auto;}.leaflet-oldie .leaflet-popup-content-wrapper {-ms-zoom: 1;}.leaflet-oldie .leaflet-popup-tip {width: 24px;margin: 0 auto;-ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678)";filter: progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678);}.leaflet-oldie .leaflet-control-zoom,.leaflet-oldie .leaflet-control-layers,.leaflet-oldie .leaflet-popup-content-wrapper,.leaflet-oldie .leaflet-popup-tip {border: 1px solid #999;}.leaflet-div-icon {background: #fff;border: 1px solid #666;}.leaflet-tooltip {position: absolute;padding: 6px;background-color: #fff;border: 1px solid #fff;border-radius: 3px;color: #222;white-space: nowrap;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;pointer-events: none;box-shadow: 0 1px 3px rgba(0,0,0,0.4);}.leaflet-tooltip.leaflet-interactive {cursor: pointer;pointer-events: auto;}.leaflet-tooltip-top:before,.leaflet-tooltip-bottom:before,.leaflet-tooltip-left:before,.leaflet-tooltip-right:before {position: absolute;pointer-events: none;border: 6px solid transparent;background: transparent;content: "";}.leaflet-tooltip-bottom {margin-top: 6px;}.leaflet-tooltip-top {margin-top: -6px;}.leaflet-tooltip-bottom:before,.leaflet-tooltip-top:before {left: 50%;margin-left: -6px;}.leaflet-tooltip-top:before {bottom: 0;margin-bottom: -12px;border-top-color: #fff;}.leaflet-tooltip-bottom:before {top: 0;margin-top: -12px;margin-left: -6px;border-bottom-color: #fff;}.leaflet-tooltip-left {margin-left: -6px;}.leaflet-tooltip-right {margin-left: 6px;}.leaflet-tooltip-left:before,.leaflet-tooltip-right:before {top: 50%;margin-top: -6px;}.leaflet-tooltip-left:before {right: 0;margin-right: -12px;border-left-color: #fff;}.leaflet-tooltip-right:before {left: 0;margin-left: -12px;border-right-color: #fff;}@media print {.leaflet-control {-webkit-print-color-adjust: exact;print-color-adjust: exact;}}
@@ -56,6 +57,7 @@ td{font-family:var(--mono);font-variant-numeric:tabular-nums}
 tbody tr{cursor:pointer}
 tbody tr:hover{background:var(--accent-soft)}
 tr.sel{background:var(--accent-soft)}
+th[data-k=nom],td.nm{text-align:left;font-family:var(--body);white-space:normal;min-width:180px}
 tfoot td{font-weight:600;border-top:2px solid var(--ink);border-bottom:0}
 .dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px}
 .bar{position:relative;height:6px;background:var(--line);border-radius:3px;min-width:60px}
@@ -90,6 +92,8 @@ a{color:var(--accent)}
     <div class="actions">
       <label class="btn primary" for="file">Cargar archivo ARM (.TXT)</label>
       <input type="file" id="file" accept=".txt,.TXT,.csv,text/plain">
+      <label class="btn" for="mfile">Cargar maestro de clientes</label>
+      <input type="file" id="mfile" accept=".xlsx,.xls,.csv,.txt">
       <button id="copy" type="button">Copiar resumen para WhatsApp</button>
     </div>
   </header>
@@ -130,11 +134,12 @@ a{color:var(--accent)}
       <div class="tools">
         <h2 style="margin-right:auto">Detalle por cliente</h2>
         <select id="fr" aria-label="Filtrar ruta"></select>
-        <input id="q" type="search" placeholder="Buscar código de cliente o pedido">
+        <input id="q" type="search" placeholder="Buscar nombre, código de cliente o pedido">
         <label><input type="checkbox" id="nogps"> Solo sin GPS</label>
       </div>
       <div class="tscroll"><table id="tcli"></table></div>
       <p class="note" id="clinote"></p>
+      <p class="note" id="mnote"></p>
     </section>
 
     <section class="panel">
@@ -154,10 +159,31 @@ const nc=s=>parseFloat(s.replace(',','.'));
 const f0=new Intl.NumberFormat('es-CO',{maximumFractionDigits:0});
 const f1=new Intl.NumberFormat('es-CO',{maximumFractionDigits:1,minimumFractionDigits:1});
 const f2=new Intl.NumberFormat('es-CO',{maximumFractionDigits:2,minimumFractionDigits:2});
-let D={rows:[],bad:0,name:''},selRoute='',sort={k:'cajas',d:-1},csort={k:'cajas',d:-1},color={};
+let M={},D={rows:[],bad:0,name:''},selRoute='',sort={k:'cajas',d:-1},csort={k:'cajas',d:-1},color={};
 const $=id=>document.getElementById(id);
 function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 
+const key=c=>String(c).replace(/\D/g,'').replace(/^0+/,'');
+const nom=c=>M[key(c)]||'';
+function loadMaster(rows){ // rows: arreglo de filas (arreglos de celdas)
+  const m={};let hits=0;
+  rows.forEach(r=>{const cells=r.map(v=>String(v??'').trim());
+    const ci=cells.findIndex(v=>/^\d{5,12}$/.test(v.replace(/\s/g,'')));if(ci<0)return;
+    const txt=cells.filter((v,i)=>i!==ci&&/[A-Za-zÁÉÍÓÚÑáéíóúñ]{3}/.test(v));if(!txt.length)return;
+    m[key(cells[ci])]=txt.reduce((a,b)=>b.length>a.length?b:a).toUpperCase()});
+  const n=Object.keys(m).length;if(!n){toast('No encontré columnas de código y nombre en ese archivo');return}
+  M=m;try{localStorage.setItem('maestro',JSON.stringify(M))}catch(e){}
+  if(D.rows.length){hits=new Set(D.rows.filter(r=>M[key(r.cli)]).map(r=>r.cli)).size}
+  toast(`Maestro cargado: ${n} clientes`+(D.rows.length?` · ${hits} coinciden con el armado`:''));render();
+}
+function readMaster(file){const fr=new FileReader();
+  if(/\.(xlsx|xls)$/i.test(file.name)){
+    if(typeof XLSX==='undefined')return toast('Para Excel se necesita internet. Guárdalo como CSV e intenta de nuevo.');
+    fr.onload=()=>{const wb=XLSX.read(fr.result,{type:'array'});const rows=[];wb.SheetNames.forEach(s=>rows.push(...XLSX.utils.sheet_to_json(wb.Sheets[s],{header:1,raw:false})));loadMaster(rows)};
+    fr.readAsArrayBuffer(file);
+  }else{fr.onload=()=>{const t=fr.result,sep=[';','\t','|',','].find(s=>t.split('\n')[0].includes(s))||';';
+    loadMaster(t.split(/\r?\n/).map(l=>l.split(sep).map(v=>v.replace(/^"|"$/g,''))))};fr.readAsText(file,'utf-8')}
+}
 function parse(txt,name){
   const rows=[];let bad=0;
   txt.split(/\r?\n/).forEach(l=>{if(!l.trim())return;const m=l.match(RE);if(!m){bad++;return}
@@ -229,7 +255,7 @@ function renderLeaflet(){
   cl.sort((a,b)=>(a.ruta===selRoute)-(b.ruta===selRoute));
   cl.forEach(c=>{const dim=selRoute&&c.ruta!==selRoute;
     L.circleMarker([c.lat,c.lon],{radius:5+9*Math.sqrt(c.cajas/maxC),color:'#fff',weight:1,fillColor:color[c.ruta],fillOpacity:dim?.12:.9,opacity:dim?.2:1})
-     .bindPopup(`<b>${c.cli}</b><br>Ruta ${c.ruta}<br>${f2.format(c.cajas)} cajas · ${f1.format(c.kg)} kg<br>${c.n} pedido(s): ${c.peds.join(', ')}<br><a href="https://www.google.com/maps?q=${c.lat},${c.lon}" target="_blank" rel="noopener">Abrir en Google Maps</a>`).addTo(LG)});
+     .bindPopup(`<b>${c.cli}</b>${nom(c.cli)?'<br>'+esc(nom(c.cli)):''}<br>Ruta ${c.ruta}<br>${f2.format(c.cajas)} cajas · ${f1.format(c.kg)} kg<br>${c.n} pedido(s): ${c.peds.join(', ')}<br><a href="https://www.google.com/maps?q=${c.lat},${c.lon}" target="_blank" rel="noopener">Abrir en Google Maps</a>`).addTo(LG)});
   const sel=selRoute?cl.filter(c=>c.ruta===selRoute):cl;
   if(sel.length)LM.fitBounds(coreBounds(sel,selRoute?.05:.1),{padding:[25,25],maxZoom:16});
   setTimeout(()=>LM.invalidateSize(),50);
@@ -269,14 +295,17 @@ $('map').onclick=e=>{const b=e.target.getBoundingClientRect(),x=(e.clientX-b.lef
 if(useCanvas){$('lmap').hidden=true;$('map').hidden=false;$('mapnote').hidden=false;$('fit').hidden=true}
 function renderClients(){
   const term=$('q').value.trim(),ng=$('nogps').checked;
-  let rows=D.rows.filter(r=>(!selRoute||r.ruta===selRoute)&&(!ng||!r.gps)&&(!term||r.cli.includes(term)||r.ped.includes(term)));
+  const tu=term.toUpperCase();
+  let rows=D.rows.map(r=>({...r,nom:nom(r.cli)})).filter(r=>(!selRoute||r.ruta===selRoute)&&(!ng||!r.gps)&&(!term||r.cli.includes(term)||r.ped.includes(term)||r.nom.includes(tu)));
   rows.sort((a,b)=>(a[csort.k]>b[csort.k]?1:a[csort.k]<b[csort.k]?-1:0)*csort.d);
-  const cols=[['ruta','Ruta'],['cli','Cliente'],['ped','Pedido'],['cajas','Cajas'],['cu','CU'],['kg','Kg']];
+  const cols=[['ruta','Ruta'],['cli','Código'],['nom','Nombre'],['ped','Pedido'],['cajas','Cajas'],['cu','CU'],['kg','Kg']];
   const sum=rows.reduce((a,r)=>(a.c+=r.cajas,a.u+=r.cu,a.k+=r.kg,a),{c:0,u:0,k:0});
   $('tcli').innerHTML=`<thead><tr>${cols.map(([k,l])=>`<th data-k="${k}">${l}${csort.k===k?(csort.d>0?' ▲':' ▼'):''}</th>`).join('')}<th>Ubicación</th></tr></thead><tbody>`+
-    rows.slice(0,400).map(r=>`<tr><td><span class="dot" style="background:${color[r.ruta]}"></span>${r.ruta}</td><td>${r.cli}</td><td>${r.ped}</td><td>${f2.format(r.cajas)}</td><td>${f2.format(r.cu)}</td><td>${f1.format(r.kg)}</td><td>${r.gps?`<a href="https://www.google.com/maps?q=${r.lat},${r.lon}" target="_blank" rel="noopener">Ver mapa</a>`:'<span class="chip bad">Sin GPS</span>'}</td></tr>`).join('')+
-    `</tbody><tfoot><tr><td>${rows.length} pedidos</td><td>${new Set(rows.map(r=>r.cli)).size} clientes</td><td></td><td>${f1.format(sum.c)}</td><td>${f1.format(sum.u)}</td><td>${f0.format(sum.k)}</td><td></td></tr></tfoot>`;
-  $('tcli').querySelectorAll('th[data-k]').forEach(th=>th.onclick=()=>{const k=th.dataset.k;csort={k,d:csort.k===k?-csort.d:(['ruta','cli','ped'].includes(k)?1:-1)};renderClients()});
+    rows.slice(0,400).map(r=>`<tr><td><span class="dot" style="background:${color[r.ruta]}"></span>${r.ruta}</td><td>${r.cli}</td><td class="nm">${r.nom?esc(r.nom):'<span class="note">—</span>'}</td><td>${r.ped}</td><td>${f2.format(r.cajas)}</td><td>${f2.format(r.cu)}</td><td>${f1.format(r.kg)}</td><td>${r.gps?`<a href="https://www.google.com/maps?q=${r.lat},${r.lon}" target="_blank" rel="noopener">Ver mapa</a>`:'<span class="chip bad">Sin GPS</span>'}</td></tr>`).join('')+
+    `</tbody><tfoot><tr><td>${rows.length} pedidos</td><td>${new Set(rows.map(r=>r.cli)).size} clientes</td><td></td><td></td><td>${f1.format(sum.c)}</td><td>${f1.format(sum.u)}</td><td>${f0.format(sum.k)}</td><td></td></tr></tfoot>`;
+  $('tcli').querySelectorAll('th[data-k]').forEach(th=>th.onclick=()=>{const k=th.dataset.k;csort={k,d:csort.k===k?-csort.d:(['ruta','cli','nom','ped'].includes(k)?1:-1)};renderClients()});
+  const nk=Object.keys(M).length,sin=new Set(D.rows.filter(r=>!nom(r.cli)).map(r=>r.cli)).size;
+  $('mnote').textContent=nk?`Maestro de clientes: ${nk} nombres cargados · ${sin} clientes del armado sin nombre en el maestro.`:'El archivo ARM no trae nombres. Carga tu maestro de clientes (Excel o CSV con código y nombre) con el botón de arriba; queda guardado en este navegador.';
   $('clinote').textContent=rows.length>400?`Mostrando 400 de ${rows.length}. Filtra por ruta o busca un cliente para ver el resto.`:'';
 }
 function resumen(){
@@ -295,6 +324,8 @@ $('cap').oninput=()=>{try{localStorage.setItem('cap',$('cap').value)}catch(e){}r
 $('fr').onchange=e=>setRoute(e.target.value);
 $('q').oninput=renderClients;$('nogps').onchange=renderClients;
 function readFile(file){const fr=new FileReader();fr.onload=()=>parse(fr.result,file.name);fr.readAsText(file,'latin1')}
+$('mfile').onchange=e=>{if(e.target.files[0])readMaster(e.target.files[0]);e.target.value=''};
+try{M=JSON.parse(localStorage.getItem('maestro')||'{}')||{}}catch(e){M={}}
 $('file').onchange=e=>{if(e.target.files[0])readFile(e.target.files[0])};
 const dz=$('drop');['dragenter','dragover'].forEach(ev=>document.addEventListener(ev,e=>{e.preventDefault();dz.classList.add('over')}));
 ['dragleave','drop'].forEach(ev=>document.addEventListener(ev,e=>{e.preventDefault();dz.classList.remove('over')}));
